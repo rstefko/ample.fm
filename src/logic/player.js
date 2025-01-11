@@ -22,7 +22,8 @@ import {
     RepeatEnabled,
     VolumeNormalizationEnabled,
     DynamicsCompressorEnabled,
-    IsMobile
+    IsMobile,
+    CurrentTime
 } from '../stores/status';
 
 /**
@@ -321,6 +322,11 @@ class Player {
                 self.next();
             });
 
+            this.wavesurfer.on('audioprocess', function () {
+                debugHelper('Wavesurfer audioprocess');
+                self.updateCurrentTime();
+            });
+
             this.wavesurfer.on('ready', function () {
                 debugHelper('Wavesurfer ready');
 
@@ -400,6 +406,10 @@ class Player {
         }
 
         this.stopQueued = false;
+    }
+
+    updateCurrentTime() {
+        CurrentTime.set(this.wavesurfer.getCurrentTime());
     }
 
     /**

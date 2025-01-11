@@ -1,5 +1,4 @@
 <script>
-    import PlayerSeekBar from './player_seekBar.svelte';
     import PlayerTimeCurrent from './player_timeCurrent.svelte';
     import PlayerTimeEnd from './player_timeEnd.svelte';
     import PlayerPrimaryControls from './player_primaryControls.svelte';
@@ -17,10 +16,6 @@
 </script>
 
 <div class="site-player">
-    <div class="site-player__seekBar">
-        <PlayerSeekBar/>
-    </div>
-
     <div class="site-player__controls">
         <PlayerPrimaryControls/>
     </div>
@@ -101,13 +96,6 @@
     .site-player__secondary-controls,
     .site-player__fullscreen {
         display: none;
-    }
-
-    .site-player__seekBar :global(.seekBar) {
-        position: absolute;
-        inset-block-start: calc(-1 * var(--size-seekbar-height));
-        inset-inline-start: 0;
-        inset-inline-end: 0;
     }
 
     .site-player__times :global(.current) {
@@ -206,12 +194,6 @@
     :global(.dragging .site-player__volume-value:before),
     :global(.dragging .progress:before) {
         opacity: 1 !important;
-    }
-
-    @media (hover: hover) {
-        :global(.seekBar:hover .progress:before) {
-            opacity: 1 !important;
-        }
     }
 
     :global(.dragging .progress),

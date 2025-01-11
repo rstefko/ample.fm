@@ -1,21 +1,11 @@
 <script>
-    import { onMount } from 'svelte';
-
+    import { CurrentMedia, CurrentTime } from "../../stores/status";
     import { MediaPlayer } from "../../stores/player";
 
     import { formatSongLength } from "../../logic/helper";
 
-    let seekWidth;
-    let currentTime;
     let isPressed = false;
     let progressSlider;
-
-    function updateProgress() {
-        seekWidth = ($MediaPlayer.wavesurfer) ? ($MediaPlayer.wavesurfer.getCurrentTime()/$MediaPlayer.wavesurfer.getDuration())*100 : 0;
-        currentTime = ($MediaPlayer.wavesurfer) ? $MediaPlayer.wavesurfer.getCurrentTime() : 0;
-
-        requestAnimationFrame(updateProgress);
-    }
 
     function handleSeekMouseDown(event) {
         isPressed = true;
@@ -58,10 +48,6 @@
             $MediaPlayer.wavesurfer.seekTo(seekFraction);
         }
     }
-
-    onMount(() => {
-        requestAnimationFrame(updateProgress);
-    });
 </script>
 
 <div class="seekBar"
@@ -72,7 +58,7 @@
     on:mousemove={handleSeekDrag}
     on:touchmove={handleSeekDrag}
 >
-    <span class="progress" data-value="{formatSongLength(currentTime)}" style="transform: translateX({seekWidth}%)"></span>
+    <span class="progress" data-value="{formatSongLength(($CurrentTime) ? $CurrentTime : 0)}" style="transform: translateX({($CurrentTime) ? ($CurrentTime/$CurrentMedia.time)*100 : 0}%)"></span>
 </div>
 
 <style>
