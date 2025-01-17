@@ -1,7 +1,8 @@
 import { readable, writable } from "svelte/store";
 import Player from "../logic/player";
+import {version} from '../../package.json';
 
-export let ampleVersion = readable("2.0.3");
+export let ampleVersion = readable(version);
 
 export let MediaPlayer = writable(new Player());
 
