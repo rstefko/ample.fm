@@ -26,6 +26,7 @@
     let username = "";
     let password = "";
     let apiKey = "";
+    let serverDomain = new URL($serverURL).host;
     let randomColor = lchToRgb([50, 50, getRandomInt(360)]);
     let result;
 
@@ -72,6 +73,7 @@
 
     function setServerDetails() {
         fatalError = false;
+        $serverURL = 'https://' + serverDomain + '/apps/music/ampache';
         $API = new AmpacheAPI({ url: $serverURL, debug: false })
         getServerVersion();
     }
@@ -103,7 +105,7 @@
                     {#if !$serverIsHardcoded}
                         <p>
                             <label>{$_('text.serverURL')}
-                                <input type="text" placeholder="https://ampache-server" bind:value={$serverURL} />
+                                <input type="text" placeholder="owncloud.example.com" bind:value={serverDomain} />
                             </label>
                         </p>
                     {/if}
@@ -120,7 +122,7 @@
                     </p>
                     <button class="button button--primary"
                             type="submit"
-                            disabled="{!$serverURL || !username || !password}"
+                            disabled="{!serverDomain || !username || !password}"
                     >
                         <SVGLogin /> {$_('text.login')}
                     </button>

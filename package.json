@@ -3,13 +3,12 @@
   "version": "2.0.4",
   "type": "module",
   "scripts": {
-    "build": "vite build && npm run copy",
+    "build": "vite build",
     "build-demo": "npm run build && copyfiles ample-demo.json dist && npm run rename-demo-config",
     "dev": "vite",
     "start": "vite preview",
     "deploy": "wrangler deploy",
     "validate": "svelte-check",
-    "copy": "copyfiles ample.json dist",
     "rename-demo-config": "renamer -f \"/ample-demo.json/\" -r \"ample.json\" \"dist/*\""
   },
   "devDependencies": {

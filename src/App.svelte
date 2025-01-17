@@ -59,24 +59,7 @@
     };
 
     async function getServerURL() {
-        let hardcodedServerURL;
-
-        // load from config file if present & set
-        try {
-            hardcodedServerURL = await fetch(`${import.meta.env.BASE_URL}/ample.json`)
-                .then(response => response.json())
-                .then(data => {
-                    return data.ampacheURL;
-                });
-        } catch (e) {
-        }
-
-        if (hardcodedServerURL) {
-            $serverURL = hardcodedServerURL;
-            $serverIsHardcoded = true;
-        } else {
-            $serverURL = JSON.parse(localStorage.getItem('AmpleServerURL')) || '';
-        }
+        $serverURL = JSON.parse(localStorage.getItem('AmpleServerURL')) || '';
     }
 
     onMount(async () => {
