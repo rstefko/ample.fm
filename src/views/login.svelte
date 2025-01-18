@@ -164,7 +164,7 @@
     </div>
 
     <div class="meta">
-        <span>Ample v{$ampleVersion}</span> {#if $serverVersion}- <span>Ampache v{$serverVersion}</span>{/if}
+        <span>Ample.fm v{$ampleVersion}</span>
     </div>
 </div>
 
