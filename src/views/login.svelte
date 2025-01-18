@@ -25,7 +25,7 @@
     let versionCheck;
     let username = "";
     let password = "";
-    let serverDomain = new URL($serverURL).host;
+    let serverDomain = $serverURL ? new URL($serverURL).host : "";
     let randomColor = lchToRgb([50, 50, getRandomInt(360)]);
     let result;
 
