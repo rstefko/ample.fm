@@ -25,24 +25,14 @@
     let versionCheck;
     let username = "";
     let password = "";
-    let apiKey = "";
     let serverDomain = new URL($serverURL).host;
     let randomColor = lchToRgb([50, 50, getRandomInt(360)]);
     let result;
-
-    // List of tab items with labels and values.
-    let tabItems = [
-        { label: "Username", value: 1 },
-        { label: "API key",  value: 2 }
-    ];
 
     let fatalError = false;
 
     let title = $_('text.login');
     $PageTitle = title;
-
-    // Current active tab
-    let currentTab;
 
     $: theme = $Theme;
 
@@ -56,16 +46,6 @@
 
         try {
             result = await loginNew({ passphrase: password, username: username });
-        } catch (e) {
-            fatalError = true;
-        }
-    }
-
-    const handleSubmitAPI = async (e) => {
-        setServerDetails();
-
-        try {
-            result = await loginNew({ passphrase: apiKey });
         } catch (e) {
             fatalError = true;
         }
@@ -99,8 +79,8 @@
             <SVGAmpleLogo />
         </div>
 
-        <Tabs bind:activeTabValue={currentTab} items={tabItems}>
-            <Tab id={1} bind:activeTabValue={currentTab} class="username login-tab">
+        <Tabs>
+            <Tab class="username login-tab">
                 <form on:submit|preventDefault={handleSubmitUsername}>
                     {#if !$serverIsHardcoded}
                         <p>
@@ -123,30 +103,6 @@
                     <button class="button button--primary"
                             type="submit"
                             disabled="{!serverDomain || !username || !password}"
-                    >
-                        <SVGLogin /> {$_('text.login')}
-                    </button>
-                </form>
-            </Tab>
-
-            <Tab id={2} bind:activeTabValue={currentTab} class="api login-tab">
-                <form on:submit|preventDefault={handleSubmitAPI}>
-                    {#if !$serverIsHardcoded}
-                        <p>
-                            <label>{$_('text.serverURL')}
-                                <input type="text" placeholder="https://ampache-server" bind:value={$serverURL} />
-                            </label>
-                        </p>
-                    {/if}
-                    <p>
-                        <label>{$_('text.apiKey')}
-                            <input type="text" bind:value={apiKey} />
-                        </label>
-                    </p>
-
-                    <button class="button button--primary"
-                            type="submit"
-                            disabled="{!$serverURL || !apiKey}"
                     >
                         <SVGLogin /> {$_('text.login')}
                     </button>
