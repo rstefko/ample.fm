@@ -16,5 +16,5 @@
     "theme_color": "#006eb4",
     "background_color": "#ffffff",
     "display": "standalone",
-    "start_url": "./#/multi-rater"
+    "start_url": "./"
 }
