@@ -11,6 +11,5 @@
 
 <select bind:value={$locale} on:change={handleLocaleChange}>
     <option value="en">English</option>
-    <option value="en-AU">English (AU)</option>
     <option value="de">Deutsch</option>
 </select>
