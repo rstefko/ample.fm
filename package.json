@@ -1,15 +1,13 @@
 {
-  "name": "ample-ampache-client",
+  "name": "ample.fm",
   "version": "2.0.7",
   "type": "module",
   "scripts": {
     "build": "vite build",
-    "build-demo": "npm run build && copyfiles ample-demo.json dist && npm run rename-demo-config",
     "dev": "vite",
     "start": "vite preview",
     "deploy": "wrangler deploy",
-    "validate": "svelte-check",
-    "rename-demo-config": "renamer -f \"/ample-demo.json/\" -r \"ample.json\" \"dist/*\""
+    "validate": "svelte-check"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^2.0.0",
