@@ -13,7 +13,7 @@
   "text.alternateSongVersions": "Alternate song versions",
   "text.alternateSongVersionsInfo": "Search for other versions of currently playing song",
   "text.ample": "Ample.fm",
-  "text.ampleDescription": "Music player for your cloud. Optimized for ownCloud Music.",
+  "text.ampleDescription": "Ampache based music player for your cloud. Optimized for ownCloud Music.",
   "text.any": "Any",
   "text.appearancesPlural": "{count, plural, =1 {Appearance} other {Appearances}}",
   "text.apply": "Apply",
