@@ -120,7 +120,7 @@
     </div>
 
     <div class="meta">
-        <span>{$_('text.ample')} v{$ampleVersion}. {$_('text.ampleDescription')}</span>
+        <span><a href="https://github.com/rstefko/ample.fm">{$_('text.ample')}</a> v{$ampleVersion}. {$_('text.ampleDescription')}</span>
     </div>
 </div>
 
@@ -183,7 +183,7 @@
 
     .meta {
         position: absolute;
-        inset-block-end:  var(--spacing-lg);
+        inset-block-end: var(--spacing-lg);
         inset-inline-end: var(--spacing-lg);
         opacity: 0.4;
     }

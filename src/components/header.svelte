@@ -9,6 +9,7 @@
     import UserMenu from '../components/userMenu.svelte';
     import NotificationsMenu from '../components/notification/notificationsMenu.svelte';
 
+    import SVGAmpleLogo from "/src/images/ample_logo.svg";
     import SVGClose from "/src/images/close.svg";
     import SVGSearch from "/src/images/search.svg";
     import SVGMenu from "/src/images/menu.svg";
@@ -116,8 +117,8 @@
     </div>
 
     <div class="misc-container">
+        <a href="https://github.com/rstefko/ample.fm"><SVGAmpleLogo class="logo" height="28" width="259" /></a>
         <NotificationsMenu />
-
         <UserMenu />
     </div>
 </div>
@@ -205,6 +206,10 @@
         align-items: center;
         position: relative;
         z-index: 1;
+    }
+
+    .logo {
+        padding-right: var(--spacing-sm);
     }
 
     @media all and (min-width: 720px) {
