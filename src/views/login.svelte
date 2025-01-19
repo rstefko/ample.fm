@@ -31,7 +31,7 @@
 
     let fatalError = false;
 
-    let title = $_('text.login');
+    let title = $_('text.ample') + ' :: ' + $_('text.login');
     $PageTitle = title;
 
     $: theme = $Theme;
@@ -120,7 +120,7 @@
     </div>
 
     <div class="meta">
-        <span>Ample.fm v{$ampleVersion}</span>
+        <span>{$_('text.ample')} v{$ampleVersion}. {$_('text.ampleDescription')}</span>
     </div>
 </div>
 
