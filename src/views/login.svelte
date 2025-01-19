@@ -76,7 +76,7 @@
         {/if}
 
         <div class="logo">
-            <SVGAmpleLogo />
+            <SVGAmpleLogo width="336" />
         </div>
 
         <Tabs>
