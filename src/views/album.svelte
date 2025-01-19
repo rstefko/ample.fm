@@ -58,7 +58,7 @@
 </script>
 
 <svelte:head>
-    <title>{`${album?.name} by ${album?.artist?.name}` || $_('text.loading')} (album)</title>
+    <title>{$_('text.ample') + ' :: ' + (`${album?.name} by ${album?.artist?.name}` || $_('text.loading'))} (album)</title>
 </svelte:head>
 
 {#key $PageLoadedKey || 0}

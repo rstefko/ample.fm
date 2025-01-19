@@ -71,7 +71,7 @@
 </script>
 
 <svelte:head>
-    <title>{`${artist?.name}` || $_('text.loading')} (artist)</title>
+    <title>{$_('text.ample') + ' :: ' + (`${artist?.name}` || $_('text.loading'))} (artist)</title>
 </svelte:head>
 
 {#key $PageLoadedKey || 0}

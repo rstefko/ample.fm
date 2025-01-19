@@ -25,7 +25,7 @@
 </script>
 
 <svelte:head>
-    <title>{title}</title>
+    <title>{$_('text.ample') + ' :: ' + title}</title>
 </svelte:head>
 
 <Tabs bind:activeTabValue={currentTab} bind:items={tabItems} id="trending">

@@ -25,7 +25,7 @@
 </script>
 
 <svelte:head>
-    <title>{title}</title>
+    <title>{$_('text.ample') + ' :: ' + title}</title>
 </svelte:head>
 
 <button id="js-playlistsNew" on:click={handleShowPlaylistCreator} class="new-playlist-button button button--primary">{$_('text.playlistNew')}</button>

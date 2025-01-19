@@ -31,7 +31,7 @@
 
     let fatalError = false;
 
-    let title = $_('text.ample') + ' :: ' + $_('text.login');
+    let title = $_('text.login');
     $PageTitle = title;
 
     $: theme = $Theme;
@@ -64,7 +64,7 @@
 </script>
 
 <svelte:head>
-    <title>{title}</title>
+    <title>{$_('text.ample') + ' :: ' + title}</title>
 </svelte:head>
 
 <div class="container">

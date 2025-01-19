@@ -22,7 +22,7 @@
 </script>
 
 <svelte:head>
-    <title>{title}</title>
+    <title>{$_('text.ample') + ' :: ' + title}</title>
 </svelte:head>
 
 <div class="artists-page-container">

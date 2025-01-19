@@ -14,7 +14,7 @@
 </script>
 
 <svelte:head>
-    <title>{title}</title>
+    <title>{$_('text.ample') + ' :: ' + title}</title>
 </svelte:head>
 
 <CustomSearch bind:results bind:loadedTime bind:loading bind:selectedObjectType={type} />

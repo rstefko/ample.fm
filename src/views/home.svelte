@@ -9,7 +9,7 @@
 </script>
 
 <svelte:head>
-    <title>{title}</title>
+    <title>{$_('text.ample') + ' :: ' + title}</title>
 </svelte:head>
 
 <CardList type="album" dataProvider={"newestAlbums"} limit=12 containerType="scroll" heading="{$_('text.newestAlbums')}" />

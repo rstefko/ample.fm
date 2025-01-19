@@ -27,7 +27,7 @@
 </script>
 
 <svelte:head>
-    <title>{`${song?.title} by ${song?.artist?.name}` || $_('text.loading')} (song)</title>
+    <title>{$_('text.ample') + ' :: ' + (`${song?.title} by ${song?.artist?.name}` || $_('text.loading'))} (song)</title>
 </svelte:head>
 
 {#key params.id || 0}

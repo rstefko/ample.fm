@@ -17,7 +17,7 @@
 </script>
 
 <svelte:head>
-    <title>{$_('text.versionsOf', { values: { songTitle: params.songTitle, artistName: params.artistName } }) || $_('text.loading')}</title>
+    <title>{$_('text.ample') + ' :: ' + ($_('text.versionsOf', { values: { songTitle: params.songTitle, artistName: params.artistName } }) || $_('text.loading'))}</title>
 </svelte:head>
 
 <h1 class="page-title">{@html $_('text.versionsOfHTML', { values: { songTitle: params.songTitle, artistName: params.artistName } })}</h1>

@@ -32,7 +32,7 @@
 </script>
 
 <svelte:head>
-    <title>{`${genre?.name}` || $_('text.loading')} (genre)</title>
+    <title>{$_('text.ample') + ' :: ' + (`${genre?.name}` || $_('text.loading'))} (genre)</title>
 </svelte:head>
 
 {#if genre?.id}

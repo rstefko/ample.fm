@@ -62,7 +62,7 @@
 </script>
 
 <svelte:head>
-    <title>{(loading) ? $_('text.loading') : `${playlist?.name} (${playlistType})`}</title>
+    <title>{$_('text.ample') + ' :: ' + ((loading) ? $_('text.loading') : `${playlist?.name} (${playlistType})`)}</title>
 </svelte:head>
 
 {#if playlist?.id && !loading}
