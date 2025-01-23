@@ -221,7 +221,7 @@
         allUsers = await $API.users();
         allCatalogs = await $API.catalogs();
         allPlaylists = await $API.playlists({ hide_search: 1 });
-        allSmartlists = await $API.smartlists();
+        allSmartlists = await $API.userSmartlists();
 
         loaded = true;
 
