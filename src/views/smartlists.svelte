@@ -13,7 +13,7 @@
 </svelte:head>
 
 <div class="page-main">
-    {#await $API.smartlists()}
+    {#await $API.userSmartlists()}
         <p>{$_('text.loading')}</p>
     {:then smartlists}
         {#if smartlists.length > 0}
