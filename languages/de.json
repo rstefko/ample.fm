@@ -289,7 +289,7 @@
   "text.skippedItemsBelow": "{itemCount, plural, =1 {# item} other {# items}} unter {starCount, plural, =1 {# star} other {# stars}} übersprungen",
   "text.skippedTimes": "# Übersprungen",
   "text.smartlist": "Smartlist",
-  "text.smartlistAutoplay": "Smartlist AutoPlay",
+  "text.smartlistAutoplay": "Smart AutoPlay",
   "text.smartlistAutoplayInfo": "Neue Artikel werden hinzugefügt von",
   "text.smartlists": "Smartlists",
   "text.somethingWrong": "Etwas ist schief gelaufen",

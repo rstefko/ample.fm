@@ -103,7 +103,7 @@
             </div>
 
             <PlaylistSelector
-                type="smartlists"
+                type="combined"
                 showSelected={true}
                 bind:selectedPlaylist={$selectedPlaylist}
                 on:selected={handleSelected}

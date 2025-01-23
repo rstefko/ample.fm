@@ -35,6 +35,8 @@
     async function loadData() {
         if (type === 'smartlists') {
             playlistItems = await $API.userSmartlists();
+        } else if (type == 'combined') {
+            playlistItems = await $API.playlists({ hide_search: 0 });
         } else {
             playlistItems = await $API.playlists({ hide_search: 1 });
         }

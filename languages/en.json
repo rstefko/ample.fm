@@ -289,7 +289,7 @@
   "text.skippedItemsBelow": "Skipped {itemCount, plural, =1 {# item} other {# items}} below {starCount, plural, =1 {# star} other {# stars}}",
   "text.skippedTimes": "# Skipped",
   "text.smartlist": "Smartlist",
-  "text.smartlistAutoplay": "Smartlist AutoPlay",
+  "text.smartlistAutoplay": "Smart AutoPlay",
   "text.smartlistAutoplayInfo": "New items will be added from",
   "text.smartlists": "Smartlists",
   "text.somethingWrong": "Something went wrong",
