@@ -20,6 +20,7 @@
 
     import SVGAmpleLogo from "/src/images/ample_logo.svg";
     import SVGLogin from "/src/images/login.svg";
+    import SVGGithub from "/src/images/github-mark.svg";
 
     let theme;
     let versionCheck;
@@ -120,7 +121,7 @@
     </div>
 
     <div class="meta">
-        <span><a href="https://github.com/rstefko/ample.fm">{$_('text.ample')}</a> v{$ampleVersion}. {$_('text.ampleDescription')}</span>
+        <span>{$_('text.ample')} v{$ampleVersion}. {$_('text.ampleDescription')} <a href="https://github.com/rstefko/ample.fm"><SVGGithub width="16" height="16" /></a></span>
     </div>
 </div>
 
