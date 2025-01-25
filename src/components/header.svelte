@@ -117,7 +117,7 @@
     </div>
 
     <div class="misc-container">
-        <a href="https://github.com/rstefko/ample.fm"><SVGAmpleLogo class="logo" height="28" width="259" /></a>
+        <a class="logo" href="https://github.com/rstefko/ample.fm"><SVGAmpleLogo height="28" width="259" /></a>
         <NotificationsMenu />
         <UserMenu />
     </div>
@@ -211,6 +211,12 @@
     .logo {
         padding-left: var(--spacing-sm);
         padding-right: var(--spacing-sm);
+    }
+    
+    @media only screen and (max-device-width: 600px) {
+        .logo {
+            display: none;
+        }
     }
 
     @media all and (min-width: 720px) {
