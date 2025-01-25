@@ -107,7 +107,7 @@
     :global(body) {
         display: flex;
         flex-direction: column;
-        height: 100vh;
+        height: 100dvh;
         background-color: var(--color-background);
         color: var(--color-text-primary);
     }

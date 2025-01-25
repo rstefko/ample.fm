@@ -133,7 +133,7 @@
 
     .container {
         width: 100vw;
-        height: 100vh;
+        height: 100dvh;
         z-index: 10;
     }
 
