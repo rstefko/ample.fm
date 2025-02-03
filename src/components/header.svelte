@@ -213,7 +213,7 @@
         padding-right: var(--spacing-sm);
     }
     
-    @media only screen and (max-device-width: 600px) {
+    @media only screen and (max-width: 600px) {
         .logo {
             display: none;
         }
