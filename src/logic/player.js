@@ -67,15 +67,6 @@ class Player {
             this.nowPlayingQueue = value;
         });
 
-        // Set current wavesurfer volume to max if mobile
-        IsMobile.subscribe(value => {
-            this.globalVolume = (value) ? 1.0 : this.logVolume(get(PlayerVolume));
-
-            if (this.wavesurfer) {
-                this.wavesurfer.setVolume(this.globalVolume);
-            }
-        });
-
         NowPlayingIndex.subscribe(value => {
             this.nowPlayingIndex = value;
         });
