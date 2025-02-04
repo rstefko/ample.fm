@@ -1,6 +1,6 @@
 {
   "name": "ample.fm",
-  "version": "2.0.12",
+  "version": "2.0.13",
   "type": "module",
   "scripts": {
     "build": "vite build",
@@ -37,6 +37,6 @@
     "svelte-spa-router": "^3.3.0",
     "throttle-wait": "0.0.5",
     "uuid": "^9.0.0",
-    "wavesurfer.js": "^5.1.0"
+    "wavesurfer.js": "^6.6.4"
   }
 }
