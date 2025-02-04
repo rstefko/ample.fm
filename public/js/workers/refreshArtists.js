@@ -2,7 +2,6 @@
 let serverURL;
 let userToken;
 let APIVersion;
-let final = {};
 
 onmessage = async function(message) {
     userToken = message.data.userToken;
@@ -10,6 +9,7 @@ onmessage = async function(message) {
     serverURL = message.data.serverURL;
 
     // Do work
+    let final = {};
     final.allArtists = await getAllArtists();
     final.allAlbumArtists = final.allArtists.filter((item) => item.albumcount > 0);
 
