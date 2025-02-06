@@ -93,7 +93,7 @@
 
                     <p>
                         <label>{$_('text.username')}
-                            <input type="text" autofocus bind:value={username} />
+                            <input type="text" bind:value={username} />
                         </label>
                     </p>
                     <p>
