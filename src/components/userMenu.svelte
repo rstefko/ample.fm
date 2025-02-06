@@ -2,6 +2,7 @@
     import { _ } from 'svelte-i18n';
     import { logout } from "../logic/user";
     import { isLoggedIn } from "../stores/user.js";
+    import { ampleVersion } from "../stores/player";
     import ThemeToggle from '../components/themeToggle.svelte';
     import LanguageSelector from '../components/languageSelector.svelte';
     import Menu from '../components/menu.svelte';
@@ -25,6 +26,9 @@
 
 {#if menuIsVisible}
     <Menu anchor="bottom" toggleSelector={"#userMenu-toggle"} bind:isVisible={menuIsVisible}>
+        <div class="new-panel-header">
+            {$_('text.ample')} v{$ampleVersion}
+        </div>
         <div class="container">
             {#if $isLoggedIn}
                 <button
