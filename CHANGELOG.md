@@ -1,7 +1,8 @@
 # Changelog
 
 ## [2.0.15] - 2025-02-09
-### Wavesurfer.js replaced with Howler.js
+### Changed
+- Wavesurfer.js replaced with Howler.js
 
 ## [2.0.3] - 2024-01-08
 ### Requires at least Ampache 6.0.1

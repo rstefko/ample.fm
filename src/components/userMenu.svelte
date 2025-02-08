@@ -27,7 +27,7 @@
 {#if menuIsVisible}
     <Menu anchor="bottom" toggleSelector={"#userMenu-toggle"} bind:isVisible={menuIsVisible}>
         <div class="new-panel-header">
-            {$_('text.ample')} v{$ampleVersion}
+            {$_('text.ample')} <a href="https://github.com/rstefko/ample.fm/blob/master/CHANGELOG.md" target="_blank">v{$ampleVersion}</a>
         </div>
         <div class="container">
             {#if $isLoggedIn}
