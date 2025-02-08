@@ -255,15 +255,16 @@
     @media all and (min-width: 680px) {
         .site-player {
             grid-template-areas:
-                "main-controls now-playing SPACER1 times    SPACER2  secondary-controls SPACER4 queue"
+                "main-controls now-playing SPACER1 times    SPACER2  secondary-controls SPACER4 fullscreen"
                 "main-controls now-playing SPACER1 rating   SPACER3  volume             SPACER4 queue"
             ;
             grid-template-columns: auto 2fr var(--spacing-lg) auto var(--spacing-lg) auto var(--spacing-lg) auto;
             grid-template-rows: 1fr 1fr;
         }
-
-        .site-player__queue {
-            height: 100%;
+        
+        .site-player__fullscreen {
+            justify-content: center;
+            display: flex;
         }
 
         .site-player__now-playing :global(.nowPlayingArtwork) {
@@ -291,7 +292,16 @@
 
     @media all and (min-width: 1000px) {
         .site-player {
+            grid-template-areas:
+                "main-controls now-playing SPACER1 times    SPACER2  secondary-controls SPACER4 queue"
+                "main-controls now-playing SPACER1 rating   SPACER3  volume             SPACER4 queue"
+            ;
             grid-template-columns: auto 2fr var(--spacing-lg) auto var(--spacing-lg) auto var(--spacing-lg) 250px;
+            grid-template-rows: 1fr 1fr;
+        }
+        
+        .site-player__fullscreen {
+            display: none;
         }
     }
 
