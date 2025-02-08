@@ -14,6 +14,10 @@
         groupedAlbumArtists.set(e.data.groupedAlbumArtists);
 
         //console.log('Web Worker: Updated artists');
+
+        worker.terminate();
+
+        //console.log('Web Worker: Terminated');
     };
 
     $: {
@@ -26,10 +30,6 @@
 
             // Sending the message using postMessage
             worker.postMessage(message);
-
-            window.setInterval(function(){
-                worker.postMessage(message);
-            }, 1000*60*10);
         }
     }
 </script>

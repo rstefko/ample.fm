@@ -42,10 +42,10 @@
         let seekElementWidth = event.target.offsetWidth;
         let seekClickLocation = (event.clientX || event.targetTouches[0].screenX) - event.target.getBoundingClientRect().left;
 
-        if ($MediaPlayer.wavesurfer) {
+        if ($MediaPlayer.howl) {
             let seekFraction = seekClickLocation / seekElementWidth;
 
-            $MediaPlayer.wavesurfer.seekTo(seekFraction);
+            $MediaPlayer.howl.seek(seekFraction * $CurrentMedia.time);
         }
     }
 </script>

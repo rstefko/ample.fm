@@ -19,7 +19,7 @@
     let autoUpdateCleanup;
 
     $: {
-        if (lyrics && $CurrentMedia && $MediaPlayer.wavesurfer) {
+        if (lyrics && $CurrentMedia && $MediaPlayer.howl) {
             loading = true;
 
             // reset any previous instance
@@ -27,8 +27,6 @@
 
             loading = false;
         }
-
-
     }
 
     $: {
@@ -39,8 +37,10 @@
     }
 
     function resetEvents() {
+        /* TODO: Replace with howl
         $MediaPlayer.wavesurfer.un('audioprocess', changeLine);
         $MediaPlayer.wavesurfer.on('audioprocess', changeLine);
+        */
 
         waitForElement('.lyrics-container').then((selector) => {
             selector.scrollTop = 0;
@@ -53,7 +53,7 @@
     }
 
     function changeLine() {
-        $lyrics.move($MediaPlayer.wavesurfer.getCurrentTime());
+        $lyrics.move($MediaPlayer.howl.seek());
 
         if (follow) {
             waitForElement('.site-lyrics .current').then((selector) => {
@@ -67,7 +67,7 @@
 
     function handleClick(time) {
         if (time > 0) {
-            $MediaPlayer.wavesurfer.seekTo(time / $CurrentMedia.time);
+            $MediaPlayer.howl.seek(time);
             follow = true;
         }
     }

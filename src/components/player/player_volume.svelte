@@ -29,10 +29,10 @@
     }
 
     async function handleMuteToggle() {
-        if ($MediaPlayer.wavesurfer) {
+        if ($MediaPlayer.howl) {
             IsMuted.set(!$IsMuted);
             await tick();
-            $MediaPlayer.wavesurfer.setMute($MediaPlayer.isMuted);
+            $MediaPlayer.howl.mute($MediaPlayer.isMuted);
         }
     }
 

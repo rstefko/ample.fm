@@ -30,10 +30,6 @@
         <PlayerCurrentDetails/>
     </div>
 
-    <div class="site-player__waveform">
-        <div id="waveform"></div>
-    </div>
-
     <div class="site-player__rating">
         <PlayerRating />
     </div>
@@ -94,7 +90,6 @@
 
     /* hide non-permanent items */
     .site-player__now-playing,
-    .site-player__waveform,
     .site-player__volume,
     .site-player__feature-controls,
     .site-player__playback-controls,
@@ -124,25 +119,6 @@
         height: 100%;
         overflow: hidden;
         align-items: center;
-    }
-
-    .site-player__waveform {
-        grid-area: waveform;
-        min-height: 100%;
-        cursor: pointer;
-        position: relative;
-    }
-
-    #waveform {
-        position: absolute;
-        inset-block-start: 0;
-        inset-block-end: 0;
-        inset-inline-start: 0;
-        inset-inline-end: 0;
-    }
-
-    #waveform > :global(wave) {
-        height: 100% !important;
     }
 
     .site-player__rating {
@@ -280,11 +256,10 @@
         .site-player {
             grid-template-areas:
                 "main-controls now-playing SPACER1 times    SPACER2  secondary-controls SPACER4 queue"
-                "main-controls now-playing SPACER1 waveform waveform waveform           SPACER4 queue"
                 "main-controls now-playing SPACER1 rating   SPACER3  volume             SPACER4 queue"
             ;
             grid-template-columns: auto 2fr var(--spacing-lg) auto var(--spacing-lg) auto var(--spacing-lg) auto;
-            grid-template-rows: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
         }
 
         .site-player__queue {
@@ -300,10 +275,6 @@
         }
 
         .site-player__secondary-controls {
-            display: flex;
-        }
-
-        .site-player__waveform {
             display: flex;
         }
 
@@ -327,9 +298,9 @@
     @media all and (min-width: 1300px) {
         .site-player {
             grid-template-areas:
-            "main-controls now-playing SPACER1 times  SPACER2 waveform SPACER3 secondary-controls SPACER4 queue"
-            "main-controls now-playing SPACER1 rating SPACER2 waveform SPACER3 volume             SPACER4 queue";
-            grid-template-columns: var(--size-sidebar-width) 320px var(--spacing-xl) min-content var(--spacing-xl) 1fr var(--spacing-xl) min-content var(--spacing-xl) 250px;
+            "main-controls now-playing SPACER1 times  SPACER2 secondary-controls SPACER3 queue"
+            "main-controls now-playing SPACER1 rating SPACER2 volume             SPACER3 queue";
+            grid-template-columns: var(--size-sidebar-width) 1fr var(--spacing-xl) min-content var(--spacing-xl) min-content var(--spacing-xl) 250px;
             grid-template-rows: 1fr 1fr;
         }
 
@@ -360,10 +331,6 @@
         .site-player__times,
         .site-player__rating {
             padding-inline-end: var(--spacing-md);
-        }
-
-        #waveform {
-            padding: var(--spacing-md) 0;
         }
 
         .site-player__times {

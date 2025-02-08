@@ -1,6 +1,6 @@
 import { tick } from "svelte";
 import { get } from 'svelte/store';
-import WaveSurfer from 'wavesurfer.js';
+import { Howl, Howler } from 'howler';
 import { v4 as uuidv4 } from "uuid";
 import { getSongVersions } from "./song";
 import {
@@ -27,14 +27,14 @@ import {
 } from '../stores/status';
 
 /**
- * Interface with wavesurfer.js
+ * Interface with howler.js
  */
 class Player {
     /**
      * Initialize data
      */
     constructor() {
-        this.wavesurfer = null;
+        this.howl = null;
         this.id = null;
         this.stopQueued = false;
 
@@ -56,8 +56,8 @@ class Player {
         PlayerVolume.subscribe(value => {
             this.globalVolume = this.logVolume(value);
 
-            if (this.wavesurfer) {
-                this.wavesurfer.setVolume(this.globalVolume);
+            if (this.howl) {
+                this.howl.volume(this.globalVolume);
             }
 
             localStorage.setItem('AmplePlayerVolume', JSON.stringify(value));
@@ -96,14 +96,7 @@ class Player {
         });
     }
 
-    async setWaveColors() {
-        if (this.wavesurfer) {
-            await tick();
-            this.wavesurfer.setProgressColor(getComputedStyle(document.body).getPropertyValue('--color-waveform-progress'));
-            this.wavesurfer.setWaveColor(getComputedStyle(document.body).getPropertyValue('--color-waveform-wave'));
-        }
-    }
-
+    /* TODO: Remove filters
     initFilters() {
         if (this.wavesurfer) {
             this.filterFade = this.wavesurfer.backend.ac.createGain();
@@ -150,6 +143,7 @@ class Player {
             this.wavesurfer.drawBuffer();
         }
     }
+    */
 
     logVolume(val) {
         return Math.pow(val / 100, 2);
@@ -204,7 +198,7 @@ class Player {
     }
 
     /**
-     * Create wavesurfer and begin playing
+     * Create howler and begin playing
      */
     async start(song) {
         let self = this;
@@ -219,7 +213,7 @@ class Player {
         if (song) {
             CurrentMedia.set(song);
 
-            // notify if missing gain tags
+            // Notify if missing gain tags
             if (song.r128_track_gain === null && song.replaygain_track_gain === null) {
                 addGainTagsMissingNotification(song);
             }
@@ -238,17 +232,11 @@ class Player {
         }
 
         try {
-            this.wavesurfer = WaveSurfer.create({
-                backend: 'MediaElementWebAudio',
-                container: '#waveform',
-                height: document.querySelector(".site-player__waveform").offsetHeight,
-                barMinHeight: 1,
-                cursorWidth: 0,
-                normalize: true,
-                responsive: true,
-                hideScrollbar: true,
+            this.howl = new Howl({
+                src: [this.currentMedia.url],
+                format: [this.currentMedia.stream_format],
+                html5: true
             });
-
             if ('mediaSession' in navigator) {
                 navigator.mediaSession.metadata = new MediaMetadata({
                     title: song.title || '',
@@ -276,65 +264,45 @@ class Player {
                 });
             }
 
+            /* TODO: Remove filters
             this.initFilters();
             this.filterGain.gain.value = this.calculateGain();
-            this.wavesurfer.setVolume(this.globalVolume);
+            */
+            this.howl.volume(this.globalVolume);
 
-            // create custom audio object in order to set crossOrigin
-            let ourMedia = new Audio(this.currentMedia.url);
-            ourMedia.crossOrigin = 'anonymous';
-            this.wavesurfer.load(ourMedia);
+            //await this.updateFilters();
 
-            await this.updateFilters();
+            // Start playing once loaded
+            this.howl.once('load', function(){
+                debugHelper('Howl loaded');
+                this.howl.play();
+            }.bind(this));
 
-            let playPromise = this.wavesurfer.play();
-
-            if (playPromise !== undefined) {
-                playPromise.then(_ => {
-                })
-                .catch(error => {
-                    console.warn('Failed to start playing', error);
-                });
-            }
-
-            this.wavesurfer.on('play', function () {
-                debugHelper('Wavesurfer playing');
+            this.howl.on('play', function() {
+                debugHelper('Howl playing');
                 IsPlaying.set(true);
                 self.recordLastPlayed();
-            });
-
-            this.wavesurfer.on('pause', function () {
-                debugHelper('Wavesurfer paused');
-                IsPlaying.set(false);
-            });
-
-            this.wavesurfer.on('finish', function () {
-                debugHelper('Wavesurfer finished');
-                self.next();
-            });
-
-            this.wavesurfer.on('audioprocess', function () {
-                debugHelper('Wavesurfer audioprocess');
                 self.updateCurrentTime();
             });
 
-            this.wavesurfer.on('ready', function () {
-                debugHelper('Wavesurfer ready');
-
-                self.setWaveColors();
-
-                if (self.stopQueued) {
-                    self.stop();
-                }
+            this.howl.on('pause', function() {
+                debugHelper('Howl paused');
+                IsPlaying.set(false);
             });
 
-            this.wavesurfer.on('volume', function (e) {
-                debugHelper('Wavesurfer volume updated');
-                self.globalVolume = e;
+            // Fires when the sound finishes playing.
+            this.howl.on('end', function() {
+                debugHelper('Howl finished');
+                self.next();
             });
 
-            this.wavesurfer.on('error', function (e) {
-                debugHelper('Wavesurfer play error', e);
+            this.howl.on('volume', function() {
+                debugHelper(`Howl volume updated`);
+                self.globalVolume = this.howl.volume;
+            }.bind(this));
+
+            this.howl.on('playerror', function(e) {
+                debugHelper('Howl play error', e);
 
                 IsPlaying.set(false);
 
@@ -371,7 +339,7 @@ class Player {
     recordLastPlayed() {
         let self = this;
 
-        if (this.wavesurfer && this.wavesurfer.getCurrentTime() > 3) {
+        if (this.howl && this.howl.seek() > 3) {
             // add/update lastPlayed property
             this.nowPlayingQueue[this.nowPlayingIndex].lastPlayed = Date.now();
 
@@ -385,22 +353,34 @@ class Player {
     }
 
     /**
-     * Stop playback and destroy wavesurfer
+     * Stop playback and destroy howler
      */
     stop() {
-        if (this.wavesurfer) {
+        if (this.howl) {
             IsPlaying.set(false);
-            this.wavesurfer.cancelAjax();
-            delete this.wavesurfer.backend.buffer;
-            this.wavesurfer.destroy();
-            this.wavesurfer = null;
+            this.disposeHowl();
         }
-
         this.stopQueued = false;
     }
 
+    disposeHowl() {
+        if (this.howl) {
+            this.howl.stop();
+            this.howl.off();
+            this.howl.unload();
+            this.howl = null;
+        }
+    }
+
     updateCurrentTime() {
-        CurrentTime.set(this.wavesurfer.getCurrentTime());
+        if (!this.isPlaying)
+            return;
+
+        CurrentTime.set(this.howl.seek());
+
+        setTimeout(() => {
+            this.updateCurrentTime();
+        }, 100);
     }
 
     /**
@@ -409,12 +389,12 @@ class Player {
     async playPause() {
         debugHelper('play/pause!');
 
-        if (this.wavesurfer) {
-            if (this.wavesurfer.isPlaying()) {
+        if (this.howl) {
+            if (this.howl.playing()) {
                 await this.fadeOut();
-                this.wavesurfer.pause();
+                this.howl.pause();
             } else {
-                this.wavesurfer.play();
+                this.howl.play();
                 await this.fadeIn();
             }
         } else {
@@ -431,7 +411,7 @@ class Player {
         if (this.nowPlayingIndex > -1) {
 
             // If playback has passed a certain point, restart song instead
-            if (this.wavesurfer.getCurrentTime() < 3) {
+            if (this.howl.seek() < 3) {
                 NowPlayingIndex.update(n => n - 1);
             }
         }
@@ -544,9 +524,7 @@ class Player {
      * @param {number} index
      */
     playSelected(index) {
-        if (this.wavesurfer) {
-            this.wavesurfer.destroy();
-        }
+        this.disposeHowl();
 
         NowPlayingIndex.set(index);
 
@@ -554,14 +532,18 @@ class Player {
     }
 
     async fadeIn() {
+        /* TODO: Replace or remove
         this.filterFade.gain.setValueAtTime(0.01, this.filterFade.context.currentTime);
         this.filterFade.gain.exponentialRampToValueAtTime(1, this.filterFade.context.currentTime + 0.5);
+        */
     }
 
     async fadeOut() {
+        /* TODO: Replace or remove
         this.filterFade.gain.setValueAtTime(1, this.filterFade.context.currentTime);
         this.filterFade.gain.exponentialRampToValueAtTime(0.01, this.filterFade.context.currentTime + 0.3);
         await sleep(300); // wait for fade to end before continuing
+        */
     }
 
     /**

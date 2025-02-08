@@ -1,6 +1,6 @@
 {
   "name": "ample.fm",
-  "version": "2.0.14",
+  "version": "2.0.15",
   "type": "module",
   "scripts": {
     "build": "vite build",
@@ -28,6 +28,7 @@
     "autoprefixer": "^10.3.1",
     "color-converters": "^0.1.1",
     "fast-average-color": "^9.3.0",
+    "howler": "^2.2.4",
     "javascript-ampache": "^1.0.6",
     "jssha": "^3.2.0",
     "lodash-es": "^4.17.21",
@@ -36,7 +37,6 @@
     "svelte-portal": "^2.2.0",
     "svelte-spa-router": "^3.3.0",
     "throttle-wait": "0.0.5",
-    "uuid": "^9.0.0",
-    "wavesurfer.js": "^6.6.4"
+    "uuid": "^9.0.0"
   }
 }
