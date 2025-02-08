@@ -55,7 +55,7 @@ class Player {
         // volume here takes the linear 0-100 value and converts into a logarithmic float from 0.0 to 1.0
         PlayerVolume.subscribe(value => {
             this.globalVolume = this.logVolume(value);
-
+            
             if (this.howl) {
                 this.howl.volume(this.globalVolume);
             }
@@ -297,8 +297,8 @@ class Player {
             });
 
             this.howl.on('volume', function() {
-                debugHelper(`Howl volume updated`);
-                self.globalVolume = this.howl.volume;
+                debugHelper(`Howl volume updated: ${this.howl.volume()}`);
+                self.globalVolume = this.howl.volume();
             }.bind(this));
 
             this.howl.on('playerror', function(e) {
