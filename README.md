@@ -24,7 +24,7 @@ Based on [Ample v2](https://github.com/mitchray/ample).
 ## Setup
 - Install [ownCloud Music](https://marketplace.owncloud.com/apps/music)
 - Generate API password in ownCloud Music settings
-- Enable CORS for https://ample.fm in ownCloud `config.php`
+- Enable CORS for `https://ample.fm` in ownCloud `config.php`
 
 ```
 'cors.allowed-domains' => [

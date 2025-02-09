@@ -110,7 +110,7 @@
                 </form>
             </Tab>
         </Tabs>
-
+        <p class="instructions">Need help? See <a target="_blank" href="https://github.com/rstefko/ample.fm?tab=readme-ov-file#setup">setup instructions</a>.</p>
         {#if result?.error?.errorMessage}
             <p class="login-message badge badge--warning" in:fade>{result.error.errorMessage}</p>
         {/if}
@@ -178,7 +178,7 @@
 
     .login-message {
         position: absolute;
-        inset-inline-start:  var(--spacing-xxl);
+        inset-inline-start: var(--spacing-xxl);
         inset-inline-end: var(--spacing-xxl);
     }
 
@@ -186,6 +186,11 @@
         position: absolute;
         inset-block-end: var(--spacing-lg);
         inset-inline-end: var(--spacing-lg);
+        opacity: 0.4;
+    }
+
+    .instructions {
+        text-align: center;
         opacity: 0.4;
     }
 

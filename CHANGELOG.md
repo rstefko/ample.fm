@@ -1,6 +1,10 @@
 # Changelog
 
-## [2.1.0] - 2025-02-10
+## [2.1.1] - 2025-02-10
+### Added
+- Added setup instructions
+
+## [2.1.0] - 2025-02-09
 ### Added
 - Fullscreen button is visible in up-to 1000px wide screens
 - Version is a link to changelog in the user menu
