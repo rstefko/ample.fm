@@ -209,7 +209,7 @@
     }
 
     .logo {
-        padding-left: var(--spacing-sm);
+        padding-left: var(--spacing-xxl);
         padding-right: var(--spacing-sm);
     }
     
