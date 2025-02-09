@@ -18,9 +18,6 @@
 
         localStorage.setItem('AmpleTheme', JSON.stringify(theme));
         Theme.set(theme);
-
-        // update waveform colors when theme is toggled
-        $MediaPlayer.setWaveColors();
     }
 </script>
 

@@ -40,8 +40,6 @@
     // hook into page navigation
     history.pushState = new Proxy(history.pushState, {
         apply (target, thisArg, argumentsList) {
-            $MediaPlayer.setWaveColors();
-
             // reset scroll position after each 'page' load
             document.querySelector('.site-content-inner').scrollTop = 0;
 
@@ -51,12 +49,6 @@
             $PageTitle = "";
         }
     })
-
-    // hook into back/forward events
-    window.onpopstate = () => {
-        // Needs to be in a zero-length timeout
-        setTimeout(() => $MediaPlayer.setWaveColors(), 0);
-    };
 
     async function getServerURL() {
         $serverURL = JSON.parse(localStorage.getItem('AmpleServerURL')) || '';

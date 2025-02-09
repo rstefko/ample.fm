@@ -55,9 +55,6 @@ export const getArtist = async ({id = id, artAnalysis = false}) => {
 
         if (artist.averageColor) {
             await setCustomHue(artist.averageColor.value);
-
-            let mp = get(MediaPlayer);
-            await mp.setWaveColors();
         }
     }
 

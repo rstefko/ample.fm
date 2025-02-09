@@ -94,9 +94,6 @@ export const getAlbum = async ({id, withTracks = false, artAnalysis = false}) =>
 
         if (album.averageColor) {
             await setCustomHue(album.averageColor.value);
-
-            let mp = get(MediaPlayer);
-            await mp.setWaveColors();
         }
     }
 
