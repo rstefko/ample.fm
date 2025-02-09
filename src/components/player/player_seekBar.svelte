@@ -58,7 +58,7 @@
     on:mousemove={handleSeekDrag}
     on:touchmove={handleSeekDrag}
 >
-    <span class="progress" data-value="{formatSongLength(($CurrentTime) ? $CurrentTime : 0)}" style="transform: translateX({($CurrentTime) ? ($CurrentTime/$CurrentMedia.time)*100 : 0}%)"></span>
+    <span class="progress" data-value="{formatSongLength(($CurrentTime) ? $CurrentTime : 0)}" style="transform: translateX({($CurrentTime) ? ($CurrentTime/$CurrentMedia?.time)*100 : 0}%)"></span>
 </div>
 
 <style>
