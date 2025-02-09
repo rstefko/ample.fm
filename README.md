@@ -21,6 +21,17 @@ Based on [Ample v2](https://github.com/mitchray/ample).
 - Skip songs below a specified rating when adding to queue
 - 'Unrated' dashboard + Multi-rater
 
+## Setup
+- Install [ownCloud Music](https://marketplace.owncloud.com/apps/music)
+- Generate API password in ownCloud Music settings
+- Enable CORS for https://ample.fm in ownCloud `config.php`
+
+```
+'cors.allowed-domains' => [
+    'https://ample.fm'
+  ],
+```
+
 ## Developing
 - Clone the Ample.fm repository and from the ample.fm directory ```cd ample.fm```
 - Install packages ```npm ci```
