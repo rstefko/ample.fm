@@ -1,8 +1,61 @@
 # Changelog
 
-## [2.0.15] - 2025-02-09
+## [2.1.0] - 2025-02-10
+### Added
+- Fullscreen button is visible in up-to 1000px wide screens
+- Version is a link to changelog in the user menu
+
 ### Changed
 - Wavesurfer.js replaced with Howler.js
+
+## [2.0.14] - 2025-02-06
+### Added
+- Ample.fm version is displayed in the user menu
+
+## [2.0.13] - 2025-02-04
+### Fixed
+- Possible memory leak in refresh artists worker
+
+## [2.0.12] - 2025-02-04
+### Changed
+- Wavesurfer.js updated to v6.6.4
+
+## [2.0.11] - 2025-01-23
+### Changed
+- Footer not visible on mobile
+
+## [2.0.10] - 2025-01-23
+### Fixed
+- Smart auto play also lists playlists, users can update playlists on the owncloud database backend, because there is currently no smartlists support in ownCloud Music
+
+## [2.0.9] - 2025-01-23
+### Fixed
+- Empty smartlists
+
+## [2.0.8] - 2025-01-19
+### Changed
+- App name in all page titles
+
+## [2.0.7] - 2025-01-19
+### Changed
+- JSON config removed
+- AU translation removed
+
+## [2.0.6] - 2025-01-19
+### Changed
+- New logo
+
+## [2.0.5] - 2025-01-18
+### Added
+- Login using owncloud domain
+
+### Changed
+- API login removed
+- App name changed
+
+## [2.0.4] - 2025-01-11
+### Changed
+- CPU usage optimizations
 
 ## [2.0.3] - 2024-01-08
 ### Requires at least Ampache 6.0.1
