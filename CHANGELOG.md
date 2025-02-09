@@ -10,7 +10,7 @@
 - Version is a link to changelog in the user menu
 
 ### Changed
-- Wavesurfer.js replaced with Howler.js
+- Wavesurfer.js replaced with Howler.js, because it caused high memory usage and memory leaks
 
 ## [2.0.14] - 2025-02-06
 ### Added
