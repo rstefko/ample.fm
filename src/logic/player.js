@@ -235,7 +235,9 @@ class Player {
             this.howl = new Howl({
                 src: [this.currentMedia.url],
                 format: [this.currentMedia.stream_format],
-                html5: true
+                html5: true,
+                volume: this.globalVolume,
+                mute: this.isMuted
             });
             if ('mediaSession' in navigator) {
                 navigator.mediaSession.metadata = new MediaMetadata({
@@ -268,7 +270,6 @@ class Player {
             this.initFilters();
             this.filterGain.gain.value = this.calculateGain();
             */
-            this.howl.volume(this.globalVolume);
 
             //await this.updateFilters();
 
