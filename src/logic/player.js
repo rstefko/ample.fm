@@ -282,6 +282,7 @@ class Player {
             this.howl.on('play', function() {
                 debugHelper('Howl playing');
                 IsPlaying.set(true);
+                self.fadeIn();
                 self.recordLastPlayed();
                 self.updateCurrentTime();
             });
@@ -296,11 +297,6 @@ class Player {
                 debugHelper('Howl finished');
                 self.next();
             });
-
-            this.howl.on('volume', function() {
-                debugHelper(`Howl volume updated: ${this.howl.volume()}`);
-                self.globalVolume = this.howl.volume();
-            }.bind(this));
 
             this.howl.on('playerror', function(e) {
                 debugHelper('Howl play error', e);
@@ -396,7 +392,6 @@ class Player {
                 this.howl.pause();
             } else {
                 this.howl.play();
-                await this.fadeIn();
             }
         } else {
             await this.start();
@@ -532,19 +527,19 @@ class Player {
         this.start();
     }
 
-    async fadeIn() {
-        /* TODO: Replace or remove
-        this.filterFade.gain.setValueAtTime(0.01, this.filterFade.context.currentTime);
-        this.filterFade.gain.exponentialRampToValueAtTime(1, this.filterFade.context.currentTime + 0.5);
-        */
+    fadeIn() {
+        if (this.isMuted)
+            return;
+
+        this.howl.fade(0, this.globalVolume, 500);
     }
 
     async fadeOut() {
-        /* TODO: Replace or remove
-        this.filterFade.gain.setValueAtTime(1, this.filterFade.context.currentTime);
-        this.filterFade.gain.exponentialRampToValueAtTime(0.01, this.filterFade.context.currentTime + 0.3);
-        await sleep(300); // wait for fade to end before continuing
-        */
+        if (this.isMuted)
+            return;
+
+        this.howl.fade(this.globalVolume, 0, 300);
+        await sleep(300);
     }
 
     /**

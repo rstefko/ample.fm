@@ -1,10 +1,14 @@
 # Changelog
 
-## [2.1.1] - 2025-02-10
+## [2.1.2] - 2025-02-10
+### Changed
+- Re-implemented fade in / out using Howler.js
+
+## [2.1.1] - 2025-02-09
 ### Added
 - Added setup instructions
 
-## [2.1.0] - 2025-02-09
+## [2.1.0] - 2025-02-08
 ### Added
 - Fullscreen button is visible in up-to 1000px wide screens
 - Version is a link to changelog in the user menu
