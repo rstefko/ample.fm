@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.1.3] - 2025-02-11
+### Changed
+- Removed sound filters, because web audio is no longer used
+- Register MediaSession handlers only once
+
 ## [2.1.2] - 2025-02-10
 ### Changed
 - Re-implemented fade in / out using Howler.js
