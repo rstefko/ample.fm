@@ -37,6 +37,7 @@ class Player {
         this.howl = null;
         this.id = null;
         this.stopQueued = false;
+        this.mediaSessionRegistered = false;
 
         // volume normalization
         this.targetVolume = parseInt(-14);
@@ -249,21 +250,32 @@ class Player {
                     ]
                 });
 
-                navigator.mediaSession.setActionHandler('play', function () {
-                    self.playPause();
-                });
-                navigator.mediaSession.setActionHandler('pause', function () {
-                    self.playPause();
-                });
-                navigator.mediaSession.setActionHandler('stop', function () {
-                    self.stop();
-                });
-                navigator.mediaSession.setActionHandler('nexttrack', function () {
-                    self.next();
-                });
-                navigator.mediaSession.setActionHandler('previoustrack', function () {
-                    self.previous();
-                });
+                if (!this.mediaSessionRegistered) {
+                    debugHelper('Registering MediaSession handlers');
+                    
+                    navigator.mediaSession.setActionHandler('play', function () {
+                        debugHelper('MediaSession: play');
+                        self.playPause();
+                    });
+                    navigator.mediaSession.setActionHandler('pause', function () {
+                        debugHelper('MediaSession: pause');
+                        self.playPause();
+                    });
+                    navigator.mediaSession.setActionHandler('stop', function () {
+                        debugHelper('MediaSession: stop');
+                        self.stop();
+                    });
+                    navigator.mediaSession.setActionHandler('nexttrack', function () {
+                        debugHelper('MediaSession: nexttrack');
+                        self.next();
+                    });
+                    navigator.mediaSession.setActionHandler('previoustrack', function () {
+                        debugHelper('MediaSession: previoustrack');
+                        self.previous();
+                    });
+
+                    this.mediaSessionRegistered = true;
+                }
             }
 
             /* TODO: Remove filters
