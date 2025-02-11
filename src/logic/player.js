@@ -20,9 +20,6 @@ import {
     CurrentMedia,
     PlayerVolume,
     RepeatEnabled,
-    VolumeNormalizationEnabled,
-    DynamicsCompressorEnabled,
-    IsMobile,
     CurrentTime
 } from '../stores/status';
 
@@ -38,20 +35,6 @@ class Player {
         this.id = null;
         this.stopQueued = false;
         this.mediaSessionRegistered = false;
-
-        // volume normalization
-        this.targetVolume = parseInt(-14);
-        this.masteredVolume = null;
-        this.gainNeeded = null;
-        this.gainType = null;
-        this.gainTagValue = null;
-
-        // filter nodes
-        this.activeFilters = [];
-        this.filterFade = null;
-        this.filterGain = null;
-        this.filterCompressor = null;
-        this.filterBiquad = null; //(for testing only)
 
         // volume here takes the linear 0-100 value and converts into a logarithmic float from 0.0 to 1.0
         PlayerVolume.subscribe(value => {
@@ -80,14 +63,6 @@ class Player {
             this.isMuted = value;
         });
 
-        VolumeNormalizationEnabled.subscribe(value => {
-            this.volumeNormalizationEnabled = value;
-        });
-
-        DynamicsCompressorEnabled.subscribe(value => {
-            this.dynamicsCompressorEnabled = value;
-        });
-
         CurrentMedia.subscribe(value => {
             this.currentMedia = value;
         });
@@ -96,55 +71,6 @@ class Player {
             this.repeatEnabled = value;
         });
     }
-
-    /* TODO: Remove filters
-    initFilters() {
-        if (this.wavesurfer) {
-            this.filterFade = this.wavesurfer.backend.ac.createGain();
-            this.filterGain = this.wavesurfer.backend.ac.createGain();
-
-            this.filterCompressor = this.wavesurfer.backend.ac.createDynamicsCompressor();
-            this.filterCompressor.threshold.value = -50;
-            this.filterCompressor.knee.value = 30.0;
-            this.filterCompressor.ratio.value = 5.0;
-            this.filterCompressor.attack.value = 0.020; // 20ms
-            this.filterCompressor.release.value = 0.050; // 50ms
-
-            this.filterBiquad = this.wavesurfer.backend.ac.createBiquadFilter();
-        }
-    }
-
-    async updateFilters() {
-        if (this.wavesurfer) {
-            await tick();
-            this.activeFilters = [];
-
-            // 1. gain
-            if (this.volumeNormalizationEnabled && this.gainType !== "None") {
-                this.activeFilters.push(this.filterGain);
-            }
-
-            // 2. dynamics compressor
-            if (this.dynamicsCompressorEnabled) {
-                this.activeFilters.push(this.filterCompressor);
-            }
-
-            // 3. fade
-            this.activeFilters.push(this.filterFade);
-
-            // last. biquad (for testing only)
-            // this.activeFilters.push(this.filterBiquad);
-
-            debugHelper(this.activeFilters, 'Active filters');
-
-            // finally, apply any filters
-            this.wavesurfer.backend.setFilters(this.activeFilters);
-
-            // redraw waveform regardless
-            this.wavesurfer.drawBuffer();
-        }
-    }
-    */
 
     logVolume(val) {
         return Math.pow(val / 100, 2);
@@ -277,13 +203,6 @@ class Player {
                     this.mediaSessionRegistered = true;
                 }
             }
-
-            /* TODO: Remove filters
-            this.initFilters();
-            this.filterGain.gain.value = this.calculateGain();
-            */
-
-            //await this.updateFilters();
 
             // Start playing once loaded
             this.howl.once('load', function(){
@@ -552,53 +471,6 @@ class Player {
 
         this.howl.fade(this.globalVolume, 0, 300);
         await sleep(300);
-    }
-
-    /**
-     * Calculate gain (R128 & ReplayGain)
-     * @returns {number} gainLevel
-     */
-    calculateGain() {
-        // defaults
-        let gainLevel = 0;
-        let replayGain = 0;
-
-        this.masteredVolume = 0;
-        this.gainNeeded = 0;
-
-        let r128_track_gain = (this.currentMedia.r128_track_gain !== null) ? this.currentMedia.r128_track_gain.toString() : null;
-        let rg_track_gain = (this.currentMedia.replaygain_track_gain !== null) ? this.currentMedia.replaygain_track_gain.toString() : null;
-
-        if (r128_track_gain !== null) { // R128 PREFERRED
-            this.gainType = 'EBU R128';
-
-            replayGain = parseInt(r128_track_gain / 256); // LU/dB away from baseline of -23 LUFS/dB, stored as Q7.8 (2 ^ 8) https://datatracker.ietf.org/doc/html/rfc7845.html#section-5.2.1
-            const referenceLevel = parseInt(-23); // LUFS https://en.wikipedia.org/wiki/EBU_R_128#Specification
-            let masteredVolume = referenceLevel - replayGain;
-            let difference = this.targetVolume - masteredVolume;
-
-            gainLevel = difference;
-
-            this.masteredVolume = masteredVolume;
-            this.gainNeeded = gainLevel.toFixed(2);
-
-            gainLevel = Math.pow(10, (gainLevel / 20));
-        } else if (rg_track_gain !== null) { // Replay Gain fallback
-            this.gainType = 'ReplayGain';
-
-            replayGain = parseFloat(rg_track_gain);
-            this.gainTagValue = replayGain;
-
-            gainLevel = replayGain;
-
-            this.gainNeeded = gainLevel.toFixed(2);
-
-            gainLevel = Math.pow(10, (gainLevel / 20));
-        } else {
-            this.gainType = 'None';
-        }
-
-        return gainLevel;
     }
 }
 

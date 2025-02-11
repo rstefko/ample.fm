@@ -27,8 +27,6 @@ export let QueueIsUpdating = writable(false);
 
 export let PlayerVolume               = writable(JSON.parse(localStorage.getItem('AmplePlayerVolume')) || 50);
 export let RepeatEnabled              = writable(JSON.parse(localStorage.getItem('AmpleRepeatEnabled')) || false);
-export let VolumeNormalizationEnabled = writable(JSON.parse(localStorage.getItem('AmpleVolumeNormalizationEnabled')) || false);
-export let DynamicsCompressorEnabled  = writable(JSON.parse(localStorage.getItem('AmpleDynamicsCompressorEnabled')) || false);
 
 export let AutoPlayEnabled  = writable(JSON.parse(localStorage.getItem('AmpleAutoPlayEnabled')) || false);
 export let AutoPlayPlaylist = writable(JSON.parse(localStorage.getItem('AmpleAutoPlayPlaylist')) || null);
