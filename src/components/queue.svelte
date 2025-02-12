@@ -176,114 +176,116 @@
     }}
     on:clickedOutside={handleClickOutside}
 >
-    <div class="site-queue-inner">
-        <div class="header panel-header">
-            <h4 class="panel-title">{$_('text.queue')}</h4>
-            <button id="queueMoreToggle" class="icon-button" on:click|stopPropagation={handleQueueMoreMenu}><SVGMore /></button>
-            <button class="clear-all icon-button button--danger button--mini" on:click={handleClearQueue} title="{$_('text.clearAll')}"><SVGBin style="transform: scale(0.75)" /></button>
-        </div>
+    {#if $QueueIsOpen}
+        <div class="site-queue-inner">
+            <div class="header panel-header">
+                <h4 class="panel-title">{$_('text.queue')}</h4>
+                <button id="queueMoreToggle" class="icon-button" on:click|stopPropagation={handleQueueMoreMenu}><SVGMore /></button>
+                <button class="clear-all icon-button button--danger button--mini" on:click={handleClearQueue} title="{$_('text.clearAll')}"><SVGBin style="transform: scale(0.75)" /></button>
+            </div>
 
-        {#if queueMoreMenuIsOpen}
-            <Menu anchor="left" toggleSelector={'#queueMoreToggle'} bind:isVisible={queueMoreMenuIsOpen}>
-                <div class="panel-content">
-                    <ul class="menu-list">
-                        {#if !$IsMobile}
+            {#if queueMoreMenuIsOpen}
+                <Menu anchor="left" toggleSelector={'#queueMoreToggle'} bind:isVisible={queueMoreMenuIsOpen}>
+                    <div class="panel-content">
+                        <ul class="menu-list">
+                            {#if !$IsMobile}
+                                <li>
+                                    <button on:click|stopPropagation={togglePinned}>
+                                        {#if $QueueIsPinned}
+                                            {$_('text.queueUnpin')}
+                                        {:else}
+                                            {$_('text.queuePin')}
+                                        {/if}
+                                    </button>
+                                </li>
+                            {/if}
                             <li>
-                                <button on:click|stopPropagation={togglePinned}>
-                                    {#if $QueueIsPinned}
-                                        {$_('text.queueUnpin')}
-                                    {:else}
-                                        {$_('text.queuePin')}
-                                    {/if}
+                                <button on:click|stopPropagation={showCurrentMedia} title="{$_('text.queueShowCurrent')}">
+                                    {$_('text.queueShowCurrent')}
                                 </button>
                             </li>
-                        {/if}
-                        <li>
-                            <button on:click|stopPropagation={showCurrentMedia} title="{$_('text.queueShowCurrent')}">
-                                {$_('text.queueShowCurrent')}
-                            </button>
-                        </li>
-                        <li>
-                            <button on:click|stopPropagation={handleClearPlayed} title="{$_('text.queueClearPlayed')}">
-                                {$_('text.queueClearPlayed')}
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-            </Menu>
-        {/if}
-
-        <div
-            class="queue-list"
-            use:dndzone={{
-                items: $NowPlayingQueue,
-                dropTargetStyle: {},
-                flipDurationMs: flipDurationMs,
-                transformDraggedElement,
-                dragDisabled
-            }}
-            on:consider={handleSort}
-            on:finalize={handleSort}
-            style="display: {$QueueIsUpdating ? 'none' : 'initial'}"
-        >
-            {#if $NowPlayingQueue && $NowPlayingQueue.length > 0}
-                {#each $NowPlayingQueue as media, i (media._id)}
-                    <div
-                        on:click={(e) => { handleAction(e, i) }}
-                        class="queue-item"
-                        class:currentlyPlaying={$NowPlayingIndex === i}
-                        animate:flip={{duration:flipDurationMs}}
-                    >
-                        <button class="icon-button remove" on:click|stopPropagation={handleRemoveItem(i)}><SVGClose /></button>
-
-                        <span
-                            class="thumb"
-                            on:mousedown={startDrag}
-                            on:touchstart={startDrag}
-                        >
-                            <img src="{media.art}&thumb=1"
-                                alt=""
-                                loading="lazy"
-                                data-id="art-album-{media.album?.id}"
-                                on:error={e => { e.onerror=null; e.target.src=$serverURL + '/image.php?object_id=0&object_type=song&thumb=22' }}
-                            />
-                        </span>
-
-                        {#if $NowPlayingIndex === i}
-                            <span class="current-icon"><SVGCurrent class="icon" /></span>
-                        {/if}
-
-                        <span class="details">
-                            <div class="queue-title card-title" title="{media.name}">{media.name}</div>
-
-                            {#if media.artists?.length > 0}
-                                <ArtistList artists={media.artists} disabled={true} />
-                            {/if}
-                        </span>
-
-                        <button id="itemMoreToggle-{i}" class="icon-button more" on:click|stopPropagation={handleItemMoreMenu(i)}><SVGMore /></button>
-
-                        {#if itemMoreMenuIsOpen && itemMoreMenuID === i}
-                            <Menu anchor="left" toggleSelector={'#itemMoreToggle-' + itemMoreMenuID} bind:isVisible={itemMoreMenuIsOpen}>
-                                <div class="panel-content">
-                                    <Actions
-                                        type="song"
-                                        mode="subMenu"
-                                        id="{media.id}"
-                                        data={Object.create({
-                                            album: media.album,
-                                            artists: media.artists,
-                                            albumArtist: media.albumartist
-                                        })}
-                                    />
-                                </div>
-                            </Menu>
-                        {/if}
+                            <li>
+                                <button on:click|stopPropagation={handleClearPlayed} title="{$_('text.queueClearPlayed')}">
+                                    {$_('text.queueClearPlayed')}
+                                </button>
+                            </li>
+                        </ul>
                     </div>
-                {/each}
+                </Menu>
             {/if}
+
+            <div
+                class="queue-list"
+                use:dndzone={{
+                    items: $NowPlayingQueue,
+                    dropTargetStyle: {},
+                    flipDurationMs: flipDurationMs,
+                    transformDraggedElement,
+                    dragDisabled
+                }}
+                on:consider={handleSort}
+                on:finalize={handleSort}
+                style="display: {$QueueIsUpdating ? 'none' : 'initial'}"
+            >
+                {#if $NowPlayingQueue && $NowPlayingQueue.length > 0}
+                    {#each $NowPlayingQueue as media, i (media._id)}
+                        <div
+                            on:click={(e) => { handleAction(e, i) }}
+                            class="queue-item"
+                            class:currentlyPlaying={$NowPlayingIndex === i}
+                            animate:flip={{duration:flipDurationMs}}
+                        >
+                            <button class="icon-button remove" on:click|stopPropagation={handleRemoveItem(i)}><SVGClose /></button>
+
+                            <span
+                                class="thumb"
+                                on:mousedown={startDrag}
+                                on:touchstart={startDrag}
+                            >
+                                <img src="{media.art}&thumb=1"
+                                    alt=""
+                                    loading="lazy"
+                                    data-id="art-album-{media.album?.id}"
+                                    on:error={e => { e.onerror=null; e.target.src=$serverURL + '/image.php?object_id=0&object_type=song&thumb=22' }}
+                                />
+                            </span>
+
+                            {#if $NowPlayingIndex === i}
+                                <span class="current-icon"><SVGCurrent class="icon" /></span>
+                            {/if}
+
+                            <span class="details">
+                                <div class="queue-title card-title" title="{media.name}">{media.name}</div>
+
+                                {#if media.artists?.length > 0}
+                                    <ArtistList artists={media.artists} disabled={true} />
+                                {/if}
+                            </span>
+
+                            <button id="itemMoreToggle-{i}" class="icon-button more" on:click|stopPropagation={handleItemMoreMenu(i)}><SVGMore /></button>
+
+                            {#if itemMoreMenuIsOpen && itemMoreMenuID === i}
+                                <Menu anchor="left" toggleSelector={'#itemMoreToggle-' + itemMoreMenuID} bind:isVisible={itemMoreMenuIsOpen}>
+                                    <div class="panel-content">
+                                        <Actions
+                                            type="song"
+                                            mode="subMenu"
+                                            id="{media.id}"
+                                            data={Object.create({
+                                                album: media.album,
+                                                artists: media.artists,
+                                                albumArtist: media.albumartist
+                                            })}
+                                        />
+                                    </div>
+                                </Menu>
+                            {/if}
+                        </div>
+                    {/each}
+                {/if}
+            </div>
         </div>
-    </div>
+    {/if}
 </div>
 
 <style>
