@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.1.4] - 2025-02-12
+## Fixed
+- Invisible queue caused memory leaks
+
 ## [2.1.3] - 2025-02-11
 ### Changed
 - Removed sound filters, because web audio is no longer used
