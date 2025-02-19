@@ -229,8 +229,16 @@ class Player {
                 self.next();
             });
 
-            this.howl.on('playerror', function(e) {
-                debugHelper('Howl play error', e);
+            this.howl.on('loaderror', function(id, e) {
+                console.error(`Howl load error (id=${id}): ${e}`);
+
+                IsPlaying.set(false);
+
+                self.next();
+            });
+
+            this.howl.on('playerror', function(id, e) {
+                console.error(`Howl play error (id=${id}): ${e}`);
 
                 IsPlaying.set(false);
 
