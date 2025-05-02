@@ -20,7 +20,8 @@ import {
     CurrentMedia,
     PlayerVolume,
     RepeatEnabled,
-    CurrentTime
+    CurrentTime,
+    IsMobile
 } from '../stores/status';
 
 /**
@@ -476,6 +477,12 @@ class Player {
     async fadeOut() {
         if (this.isMuted)
             return;
+
+        // Causes issue during pause on Safari from Control Center
+        if (get(IsMobile))
+            return;
+
+        debugHelper('Howl fade');
 
         this.howl.fade(this.globalVolume, 0, 300);
         await sleep(300);
