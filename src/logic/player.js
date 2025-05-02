@@ -468,13 +468,15 @@ class Player {
     }
 
     fadeIn() {
-        if (this.isMuted)
-            return;
-
-        this.howl.fade(0, this.globalVolume, 500);
+        this.fade(0, this.globalVolume, 500);
     }
 
     async fadeOut() {
+        this.fade(this.globalVolume, 0, 300)
+        await sleep(300);
+    }
+
+    fade(from, to, duration) {
         if (this.isMuted)
             return;
 
@@ -484,8 +486,7 @@ class Player {
 
         debugHelper('Howl fade');
 
-        this.howl.fade(this.globalVolume, 0, 300);
-        await sleep(300);
+        this.howl.fade(from, to, duration);
     }
 }
 
