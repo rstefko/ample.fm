@@ -117,7 +117,8 @@
     </div>
 
     <div class="misc-container">
-        <a class="logo" href="https://github.com/rstefko/ample.fm"><SVGAmpleLogo height="28" width="259" /></a>
+        <a class="logo" href="https://github.com/rstefko/ample.fm" target="_blank"><SVGAmpleLogo height="28" width="259" /></a>
+        <a href="https://ko-fi.com/J3J519JUE4" target="_blank"><img src="https://storage.ko-fi.com/cdn/brandasset/v2/kofi_symbol.png" alt="ko-fi" height="28" width="35" /></a>
         <NotificationsMenu />
         <UserMenu />
     </div>
