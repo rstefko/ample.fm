@@ -117,8 +117,8 @@
     </div>
 
     <div class="misc-container">
-        <a class="logo" href="https://github.com/rstefko/ample.fm" target="_blank"><SVGAmpleLogo height="28" width="259" /></a>
-        <a class="ko-fi" href="https://ko-fi.com/J3J519JUE4" target="_blank"><img src="/kofi.png" alt="ko-fi" height="28" width="35" /></a>
+        <a class="logo" href="https://github.com/rstefko/ample.fm"><SVGAmpleLogo height="28" width="259" /></a>
+        <a class="ko-fi" href="https://ko-fi.com/J3J519JUE4"><img src="/kofi.png" alt="ko-fi" height="28" width="35" /></a>
         <NotificationsMenu />
         <UserMenu />
     </div>
@@ -210,7 +210,7 @@
     }
 
     .ko-fi {
-        padding-left: var(--spacing-sm);
+        padding-left: var(--spacing-md);
         padding-right: var(--spacing-sm);
         min-width: 35px;
     }
