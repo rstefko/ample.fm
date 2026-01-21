@@ -315,9 +315,9 @@ class Player {
 
         CurrentTime.set(this.howl.seek());
 
-        setTimeout(() => {
+        requestAnimationFrame(() => {
             this.updateCurrentTime();
-        }, 100);
+        });
     }
 
     /**
