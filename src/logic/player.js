@@ -23,6 +23,7 @@ import {
     CurrentTime,
     IsMobile
 } from '../stores/status';
+import localforage from 'localforage';
 
 /**
  * Interface with howler.js
@@ -160,8 +161,15 @@ class Player {
         }
 
         try {
+            let trackUrl = this.currentMedia.url;
+            const audioBlob = await localforage.getItem(this.currentMedia.id);
+            if (audioBlob) {
+                trackUrl = URL.createObjectURL(audioBlob);
+
+                debugHelper(`Loading track ${this.currentMedia.id} from cache`);
+            }
             this.howl = new Howl({
-                src: [this.currentMedia.url],
+                src: [trackUrl],
                 format: [this.currentMedia.stream_format],
                 html5: true,
                 volume: this.globalVolume,
@@ -271,6 +279,27 @@ class Player {
 
         NowPlayingQueue.set(arr);
         QueueIsUpdating.set(false);
+    }
+
+    async preloadSongs(songs) {
+        for (const song of songs) {
+            try {
+                let audioBlob = await localforage.getItem(song.id);
+                if (audioBlob != null) {
+                    debugHelper(`Song ${song.id} already in cache`);
+                    continue;
+                }
+
+                const response = await fetch(song.url);
+                audioBlob = await response.blob();
+                
+                await localforage.setItem(song.id, audioBlob);
+                
+                debugHelper(`Song ${song.id} saved to cache`);
+            } catch (error) {
+                debugHelper(`Error saving song ${song.id} to cache: ${error}`);
+            }
+        }
     }
 
     recordLastPlayed() {
@@ -418,6 +447,7 @@ class Player {
      */
     playNow(songs) {
         this.clearAll();
+        this.preloadSongs(songs);
         this.setQueueItems(songs).then(() => {
             this.start();
         });
@@ -428,6 +458,8 @@ class Player {
      * @param {object} songs
      */
     async playNext(songs) {
+        this.preloadSongs(songs);
+
         let tempArray = get(NowPlayingQueue);
         let queueLength = tempArray.length;
         tempArray.splice(this.nowPlayingIndex + 1, 0, ...songs);
@@ -444,6 +476,8 @@ class Player {
      * @param {object} songs
      */
     async playLast(songs) {
+        this.preloadSongs(songs);
+
         let tempArray = get(NowPlayingQueue);
         let queueLength = tempArray.length;
         tempArray.push(...songs);
