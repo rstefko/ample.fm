@@ -21,7 +21,8 @@ import {
     PlayerVolume,
     RepeatEnabled,
     CurrentTime,
-    IsMobile
+    IsMobile,
+    ShowNotificationAlternateVersions
 } from '../stores/status';
 import localforage from 'localforage';
 
@@ -255,7 +256,7 @@ class Player {
             });
 
             // Search for song versions if artist is present (i.e. songs)
-            if (song.artist) {
+            if (song.artist && get(ShowNotificationAlternateVersions)) {
                 getSongVersions(song.title, song.artist.name)
                     .then((result) => {
                         if (!result.error && result.length > 1) {
