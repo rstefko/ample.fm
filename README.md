@@ -37,4 +37,4 @@ Based on [Ample v2](https://github.com/mitchray/ample).
 - For development and hot reloading ```npm run dev```
 - For building ```npm run build```, and see the contents of ```dist```
 
-Additional console logging can be enabled by setting ```debugMode true``` in ```src/stores/server.js```
+Additional console logging can be enabled by setting ```debugMode true``` in ```src/stores/server.js``` or by calling ```window.debugMode.set(true)``` from browser console.

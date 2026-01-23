@@ -7,7 +7,7 @@
     import { isLoggedIn, userToken } from './stores/user';
     import { MediaPlayer, SiteContentBind, SiteInnerBind } from "./stores/player";
     import { Theme, PageTitle } from "./stores/status";
-    import { serverURL, serverIsHardcoded } from "./stores/server.js";
+    import { serverURL, debugMode } from "./stores/server.js";
 
     import { extendSession, validateSession } from './logic/user';
     import { isLoading as i18nIsLoading } from 'svelte-i18n'
@@ -61,6 +61,8 @@
         if ($Theme === 'light') {
             document.body.classList.add('theme-is-light');
         }
+
+        window.debugMode = debugMode;
     });
 </script>
 

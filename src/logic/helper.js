@@ -6,15 +6,13 @@ import { SkipBelow, SkipBelowRating } from "../stores/status";
 
 import JsSHA from "jssha/dist/sha1";
 
-let debugEnabled = get(debugMode);
-
 /**
  * Output debug lines if enabled
  * @param val
  * @param description
  */
 export const debugHelper = (val, description = "--") => {
-    if (debugEnabled) {
+    if (get(debugMode)) {
         console.log(description, val);
     }
 }
