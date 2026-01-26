@@ -12,9 +12,13 @@ import JsSHA from "jssha/dist/sha1";
  * @param description
  */
 export const debugHelper = (val, description = "--") => {
-    if (get(debugMode)) {
+    if (get(debugMode) || isNativeApp()) {
         console.log(description, val);
     }
+}
+
+export function isNativeApp(ms) {
+    return navigator.userAgent.includes("Ample.fm (iOS)");
 }
 
 export function sleep(ms) {

@@ -1,6 +1,6 @@
 import { tick } from "svelte";
 import { get } from 'svelte/store';
-import { Howl, Howler } from 'howler';
+import { Howl } from 'howler';
 import { v4 as uuidv4 } from "uuid";
 import { getSongVersions } from "./song";
 import {
@@ -10,7 +10,7 @@ import {
     addLyricsMissingNotification,
     addLyricsNotTimestampedNotification,
 } from "./notification";
-import { debugHelper, shuffleArray, sleep, lyricsAreTimestamped } from './helper';
+import { debugHelper, shuffleArray, sleep, lyricsAreTimestamped, isNativeApp } from './helper';
 import {
     NowPlayingQueue,
     NowPlayingIndex,
@@ -25,6 +25,95 @@ import {
     ShowNotificationAlternateVersions
 } from '../stores/status';
 import localforage from 'localforage';
+
+const NativePlayer = (function() {
+    class NativePlayerWrapper {
+        constructor(player) {
+            this.player = player;
+            this.position = 0;
+            this.setupNativeBridge();
+        }
+
+        setupNativeBridge() {
+            debugHelper('Setting up native bridge');
+            window.onNativeAppMessage = (jsonString) => {
+                try {
+                    const data = JSON.parse(jsonString);
+                    switch (data.action) {
+                        case 'play':
+                            debugHelper('NativePlayer-recieve: Playing');
+                            this.setIsPlaying();
+                            break;
+                        case 'pause':
+                            debugHelper('NativePlayer-recieve: Paused');
+                            IsPlaying.set(false);
+                            break;
+                        case 'end':
+                            debugHelper('NativePlayer-recieve: Player finished');
+                            this.player.next();
+                            break;
+                        case 'position':
+                            this.position = data.seek;
+                            break;
+                        case 'nexttrack':
+                            debugHelper('NativePlayer-recieve: Next track');
+                            this.player.next()
+                            break;
+                        case 'previoustrack':
+                            debugHelper('NativePlayer-recieve: Previous track');
+                            this.player.previous()
+                            break;
+                    }
+                } catch (e) {
+                    console.error('Unable to parse message from NativePlayer:', e);
+                }
+            };
+        }
+
+        setIsPlaying() {
+            IsPlaying.set(true);
+            this.player.recordLastPlayed();
+            this.player.updateCurrentTime();
+        }
+
+        playTrack(url, title, artist, album, artwork) {
+            debugHelper(`NativePlayer-send: Play track: ${title}`);
+            window.webkit.messageHandlers.bridge.postMessage({
+                action: 'play',
+                url: url,
+                title: title,
+                artist: artist,
+                album: album,
+                artwork: artwork
+            });
+            this.setIsPlaying();
+        }
+
+        play() {
+            debugHelper(`NativePlayer-send: Play`);
+            window.webkit.messageHandlers.bridge.postMessage({action: 'play'});
+            IsPlaying.set(true);
+        }
+        
+        pause() {
+            debugHelper(`NativePlayer-send: Pause`);
+            window.webkit.messageHandlers.bridge.postMessage({action: 'pause'});
+            IsPlaying.set(false);
+        }
+
+        playing() {
+            const playing = get(IsPlaying);
+            debugHelper(`NativePlayer-send: Playing=${playing}`);
+            return playing;
+        }
+
+        seek() {
+            return this.position;
+        }
+    }
+
+    return (player) => new NativePlayerWrapper(player);
+})();
 
 /**
  * Interface with howler.js
@@ -163,97 +252,108 @@ class Player {
 
         try {
             let trackUrl = this.currentMedia.url;
-            const audioBlob = await localforage.getItem(this.currentMedia.id);
-            if (audioBlob) {
-                trackUrl = URL.createObjectURL(audioBlob);
+            const title = song.title || '';
+            const artist = (song.artist) ? song.artist.name : '';
+            const album = (song.album) ? song.album.name : '';
+            const artwork = (song.art) ? `${song.art}&thumb=22` : '';
+            if (isNativeApp()) {
+                if (!this.howl) {
+                    this.howl = NativePlayer(this);
+                }
+                this.howl.playTrack(this.currentMedia.url, title, artist, album, artwork);
+            } else {
+                const audioBlob = await localforage.getItem(this.currentMedia.id);
+                if (audioBlob) {
+                    trackUrl = URL.createObjectURL(audioBlob);
 
-                debugHelper(`Loading track ${this.currentMedia.id} from cache`);
-            }
-            this.howl = new Howl({
-                src: [trackUrl],
-                format: [this.currentMedia.stream_format],
-                html5: true,
-                volume: this.globalVolume,
-                mute: this.isMuted
-            });
-            if ('mediaSession' in navigator) {
-                navigator.mediaSession.metadata = new MediaMetadata({
-                    title: song.title || '',
-                    artist: (song.artist) ? song.artist.name : '',
-                    album: (song.album) ? song.album.name : '',
-                    artwork: [
-                        { src: `${song.art}&thumb=22` },
-                    ]
+                    debugHelper(`Loading track ${this.currentMedia.id} from cache`);
+                }
+                this.howl = new Howl({
+                    src: [trackUrl],
+                    format: [this.currentMedia.stream_format],
+                    html5: true,
+                    volume: this.globalVolume,
+                    mute: this.isMuted
+                });
+                if ('mediaSession' in navigator) {
+                    navigator.mediaSession.metadata = new MediaMetadata({
+                        title: title,
+                        artist: artist,
+                        album: album,
+                        artwork: [
+                            { src: artwork },
+                        ]
+                    });
+
+                    if (!this.mediaSessionRegistered) {
+                        debugHelper('Registering MediaSession handlers');
+                        
+                        navigator.mediaSession.setActionHandler('play', function () {
+                            debugHelper('MediaSession: play');
+                            self.playPause();
+                        });
+                        navigator.mediaSession.setActionHandler('pause', function () {
+                            debugHelper('MediaSession: pause');
+                            self.playPause();
+                        });
+                        navigator.mediaSession.setActionHandler('stop', function () {
+                            debugHelper('MediaSession: stop');
+                            self.stop();
+                        });
+                        navigator.mediaSession.setActionHandler('nexttrack', function () {
+                            debugHelper('MediaSession: nexttrack');
+                            self.next();
+                        });
+                        navigator.mediaSession.setActionHandler('previoustrack', function () {
+                            debugHelper('MediaSession: previoustrack');
+                            self.previous();
+                        });
+
+                        this.mediaSessionRegistered = true;
+                    }
+                }
+
+                // Start playing once loaded
+                this.howl.once('load', function(){
+                    debugHelper('Howl loaded');
+                    this.howl.play();
+                }.bind(this));
+
+                this.howl.on('play', function() {
+                    debugHelper('Howl playing');
+                    IsPlaying.set(true);
+                    self.fadeIn();
+                    self.recordLastPlayed();
+                    self.updateCurrentTime();
                 });
 
-                if (!this.mediaSessionRegistered) {
-                    debugHelper('Registering MediaSession handlers');
-                    
-                    navigator.mediaSession.setActionHandler('play', function () {
-                        debugHelper('MediaSession: play');
-                        self.playPause();
-                    });
-                    navigator.mediaSession.setActionHandler('pause', function () {
-                        debugHelper('MediaSession: pause');
-                        self.playPause();
-                    });
-                    navigator.mediaSession.setActionHandler('stop', function () {
-                        debugHelper('MediaSession: stop');
-                        self.stop();
-                    });
-                    navigator.mediaSession.setActionHandler('nexttrack', function () {
-                        debugHelper('MediaSession: nexttrack');
-                        self.next();
-                    });
-                    navigator.mediaSession.setActionHandler('previoustrack', function () {
-                        debugHelper('MediaSession: previoustrack');
-                        self.previous();
-                    });
+                this.howl.on('pause', function() {
+                    debugHelper('Howl paused');
+                    IsPlaying.set(false);
+                });
 
-                    this.mediaSessionRegistered = true;
-                }
+                // Fires when the sound finishes playing.
+                this.howl.on('end', function() {
+                    debugHelper('Howl finished');
+                    self.next();
+                });
+
+                this.howl.on('loaderror', function(id, e) {
+                    console.error(`Howl load error (id=${id}): ${e}`);
+
+                    IsPlaying.set(false);
+
+                    self.next();
+                });
+
+                this.howl.on('playerror', function(id, e) {
+                    console.error(`Howl play error (id=${id}): ${e}`);
+
+                    IsPlaying.set(false);
+
+                    self.next();
+                });
             }
-
-            // Start playing once loaded
-            this.howl.once('load', function(){
-                debugHelper('Howl loaded');
-                this.howl.play();
-            }.bind(this));
-
-            this.howl.on('play', function() {
-                debugHelper('Howl playing');
-                IsPlaying.set(true);
-                self.fadeIn();
-                self.recordLastPlayed();
-                self.updateCurrentTime();
-            });
-
-            this.howl.on('pause', function() {
-                debugHelper('Howl paused');
-                IsPlaying.set(false);
-            });
-
-            // Fires when the sound finishes playing.
-            this.howl.on('end', function() {
-                debugHelper('Howl finished');
-                self.next();
-            });
-
-            this.howl.on('loaderror', function(id, e) {
-                console.error(`Howl load error (id=${id}): ${e}`);
-
-                IsPlaying.set(false);
-
-                self.next();
-            });
-
-            this.howl.on('playerror', function(id, e) {
-                console.error(`Howl play error (id=${id}): ${e}`);
-
-                IsPlaying.set(false);
-
-                self.next();
-            });
 
             // Search for song versions if artist is present (i.e. songs)
             if (song.artist && get(ShowNotificationAlternateVersions)) {
@@ -283,6 +383,9 @@ class Player {
     }
 
     async preloadSongs(songs) {
+        if (isNativeApp())
+            return;
+
         for (const song of songs) {
             try {
                 let audioBlob = await localforage.getItem(song.id);
@@ -331,6 +434,9 @@ class Player {
     }
 
     disposeHowl() {
+        if (isNativeApp())
+            return;
+
         if (this.howl) {
             this.howl.stop();
             this.howl.off();
