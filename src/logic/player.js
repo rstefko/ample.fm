@@ -107,8 +107,19 @@ const NativePlayer = (function() {
             return playing;
         }
 
-        seek() {
-            return this.position;
+        seek(position = null) {
+            if (position === null) {
+                return this.position;
+            }
+            
+            debugHelper(`NativePlayer-send: Seek=${position}`);
+            window.webkit.messageHandlers.bridge.postMessage({action: 'seek', seek: position});
+            this.position = position;
+        }
+
+        mute(mute) {
+            debugHelper(`NativePlayer-send: Mute=${mute}`);
+            window.webkit.messageHandlers.bridge.postMessage({action: 'mute', mute: mute});
         }
     }
 
