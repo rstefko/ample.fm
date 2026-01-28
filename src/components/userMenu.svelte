@@ -2,12 +2,14 @@
     import { _ } from 'svelte-i18n';
     import { logout } from "../logic/user";
     import { isLoggedIn } from "../stores/user.js";
-    import { ampleVersion } from "../stores/player";
+    import { ampleVersion, MediaPlayer } from "../stores/player";
     import ThemeToggle from '../components/themeToggle.svelte';
     import LanguageSelector from '../components/languageSelector.svelte';
     import Menu from '../components/menu.svelte';
     import SVGLogout from "/src/images/logout.svg";
     import SVGProfile from "/src/images/account_circle.svg";
+    import ClearCache from "/src/images/clear_cache.svg";
+
 
     let menuIsVisible = false;
 
@@ -17,6 +19,10 @@
 
     function handleLogOut() {
         logout();
+    }
+
+    function clearCache() {
+        $MediaPlayer.clearCache();
     }
 </script>
 
@@ -40,6 +46,15 @@
                     <span class="text">{$_('text.logOut')}</span>
                 </button>
             {/if}
+
+            <button
+                    on:click={clearCache}
+                    class="visuallyLink clear-cache"
+                    title="{$_('text.clearCache')}"
+            >
+                <ClearCache />
+                <span class="text">{$_('text.clearCache')}</span>
+            </button>
 
             <ThemeToggle />
 

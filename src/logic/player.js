@@ -142,6 +142,11 @@ const NativePlayer = (function() {
         volume(volume) {
             // Not supported in native player
         }
+
+        clearCache() {
+            debugHelper(`NativePlayer-send: Clear cache`);
+            window.webkit.messageHandlers.bridge.postMessage({action: 'clearCache'});
+        }
     }
 
     return (player) => new NativePlayerWrapper(player);
@@ -409,6 +414,17 @@ class Player {
 
         NowPlayingQueue.set(arr);
         QueueIsUpdating.set(false);
+    }
+
+    /**
+     * Clear the cache
+     */
+    clearCache() {
+        if (isNativeApp()) {
+            this.howl.clearCache();
+        } else {
+            localforage.clear();
+        }
     }
 
     async preloadSongs(songs) {
