@@ -10,7 +10,6 @@
     import SVGProfile from "/src/images/account_circle.svg";
     import ClearCache from "/src/images/clear_cache.svg";
 
-
     let menuIsVisible = false;
 
     function toggleMenu() {
@@ -23,6 +22,7 @@
 
     function clearCache() {
         $MediaPlayer.clearCache();
+        menuIsVisible = false;
     }
 </script>
 
