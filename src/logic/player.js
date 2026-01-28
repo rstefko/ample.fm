@@ -76,9 +76,26 @@ const NativePlayer = (function() {
             this.player.updateCurrentTime();
         }
 
-        playTrack(url, title, artist, album, artwork) {
+        preload(items) {
+            debugHelper(`NativePlayer-send: Preload ${items.length} songs`);
+            const songs = items.map(item => {
+                return {
+                    id: item.id,
+                    format: item.format,
+                    url: item.url
+                };
+            });
+            window.webkit.messageHandlers.bridge.postMessage({
+                action: 'preload',
+                songs: songs
+            });
+        }
+
+        playTrack(id, format, url, title, artist, album, artwork) {
             debugHelper(`NativePlayer-send: Play track: ${title}`);
             window.webkit.messageHandlers.bridge.postMessage({
+                id: id,
+                format: format,
                 action: 'play',
                 url: url,
                 title: title,
@@ -121,6 +138,10 @@ const NativePlayer = (function() {
             debugHelper(`NativePlayer-send: Mute=${mute}`);
             window.webkit.messageHandlers.bridge.postMessage({action: 'mute', mute: mute});
         }
+
+        volume(volume) {
+            // Not supported in native player
+        }
     }
 
     return (player) => new NativePlayerWrapper(player);
@@ -134,7 +155,7 @@ class Player {
      * Initialize data
      */
     constructor() {
-        this.howl = null;
+        this.howl = isNativeApp() ? NativePlayer(this) : null;
         this.id = null;
         this.stopQueued = false;
         this.mediaSessionRegistered = false;
@@ -268,10 +289,7 @@ class Player {
             const album = (song.album) ? song.album.name : '';
             const artwork = (song.art) ? `${song.art}&thumb=22` : '';
             if (isNativeApp()) {
-                if (!this.howl) {
-                    this.howl = NativePlayer(this);
-                }
-                this.howl.playTrack(this.currentMedia.url, title, artist, album, artwork);
+                this.howl.playTrack(song.id, song.stream_format, this.currentMedia.url, title, artist, album, artwork);
             } else {
                 const audioBlob = await localforage.getItem(this.currentMedia.id);
                 if (audioBlob) {
@@ -394,9 +412,11 @@ class Player {
     }
 
     async preloadSongs(songs) {
-        if (isNativeApp())
+        if (isNativeApp()) {
+            this.howl.preload(songs);
             return;
-
+        }
+        
         for (const song of songs) {
             try {
                 let audioBlob = await localforage.getItem(song.id);
