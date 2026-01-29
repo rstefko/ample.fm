@@ -86,14 +86,14 @@
                     {#if !$serverIsHardcoded}
                         <p>
                             <label>{$_('text.serverURL')}
-                                <input type="text" placeholder="owncloud.example.com" bind:value={serverDomain} />
+                                <input type="text" autocapitalize="none" placeholder="owncloud.example.com" bind:value={serverDomain} />
                             </label>
                         </p>
                     {/if}
 
                     <p>
                         <label>{$_('text.username')}
-                            <input type="text" bind:value={username} />
+                            <input type="text" autocapitalize="none" bind:value={username} />
                         </label>
                     </p>
                     <p>
