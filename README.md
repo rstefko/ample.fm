@@ -1,4 +1,4 @@
-## *Ample.fm*: [Ampache](https://ampache.org/) based music player for your cloud. Optimized for ownCloud Music. 
+## *Ample.fm*: [Ampache](https://ampache.org/) based music player for your cloud. Optimized for ownCloud / Nextcloud Music. 
 Built with [Svelte](https://svelte.dev/) & [howler.js](https://github.com/goldfire/howler.js)
 Based on [Ample v2](https://github.com/mitchray/ample).
 
