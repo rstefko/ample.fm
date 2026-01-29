@@ -1,5 +1,37 @@
 # Changelog
 
+## [2.1.17] - 2026-01-29
+- Updated description
+- Show clear cache only when logged in
+- Do not autocapitalize on iPhone
+
+## [2.1.16] - 2026-01-28
+- Added clear cache logic
+
+## [2.1.15] - 2026-01-28
+- Added preload logic support for native app
+
+## [2.1.14] - 2026-01-26
+- Added mute and seek implementation
+
+## [2.1.13] - 2026-01-26
+- Support for iOS native app
+
+## [2.1.12] - 2026-01-23
+- Added PWA category
+
+## [2.1.11] - 2026-01-23
+- Allow to enable debug mode from console
+
+## [2.1.10] - 2026-01-22
+- Search alternate song versions only when enabled in settings
+
+## [2.1.9] - 2026-01-22
+- Song cache using localforage
+
+## [2.1.8] - 2026-01-21
+- iOS optimization
+
 ## [2.1.4] - 2025-02-12
 ## Fixed
 - Invisible queue caused memory leaks
