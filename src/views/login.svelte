@@ -54,7 +54,7 @@
 
     function setServerDetails() {
         fatalError = false;
-        $serverURL = 'https://' + serverDomain + '/index.php/apps/music/ampache';
+        $serverURL = 'https://' + serverDomain + '/apps/music/ampache';
         $API = new AmpacheAPI({ url: $serverURL, debug: false })
         getServerVersion();
     }

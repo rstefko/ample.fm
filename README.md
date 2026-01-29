@@ -24,6 +24,8 @@ Based on [Ample v2](https://github.com/mitchray/ample).
 - Install [ownCloud Music](https://marketplace.owncloud.com/apps/music)
 - Generate API password in ownCloud Music settings
 - Enable CORS for `https://ample.fm` in ownCloud `config.php`
+- If your setup runs on subdomain append it to domain name (eg. example.com/owncloud)
+- If your setup requires /index.php append it to domain name (eg. nextcloud.example.com/index.php)
 
 ```
 'cors.allowed-domains' => [
