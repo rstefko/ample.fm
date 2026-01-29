@@ -45,16 +45,16 @@
                     <SVGLogout />
                     <span class="text">{$_('text.logOut')}</span>
                 </button>
-            {/if}
 
-            <button
-                    on:click={clearCache}
-                    class="visuallyLink clear-cache"
-                    title="{$_('text.clearCache')}"
-            >
-                <ClearCache />
-                <span class="text">{$_('text.clearCache')}</span>
-            </button>
+                <button
+                        on:click={clearCache}
+                        class="visuallyLink clear-cache"
+                        title="{$_('text.clearCache')}"
+                >
+                    <ClearCache />
+                    <span class="text">{$_('text.clearCache')}</span>
+                </button>
+            {/if}
 
             <ThemeToggle />
 
