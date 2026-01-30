@@ -1,6 +1,6 @@
 {
   "name": "ample.fm",
-  "version": "2.1.18",
+  "version": "2.1.19",
   "type": "module",
   "scripts": {
     "build": "vite build",

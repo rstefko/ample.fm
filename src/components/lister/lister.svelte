@@ -4,6 +4,7 @@
     import { v4 as uuidv4 } from 'uuid';
     import { DispatchListerEvent, ListerEvent } from "../../stores/message";
     import { SiteContentBind } from "../../stores/player";
+    import { isNativeApp } from "../../logic/helper";
 
     import TableView from './lister_tableView.svelte';
     import CardView from './lister_cardView.svelte';
@@ -20,7 +21,7 @@
     export let showArtist     = false;
     export let initialSort    = null;
     export let initialReverse = null;
-    export let displayAsTable = true;
+    export let displayAsTable = !isNativeApp();
     export let tableOnly      = false;
     export let virtualList    = false;
 

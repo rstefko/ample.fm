@@ -1,6 +1,9 @@
 # Changelog
 
-## [2.1.18] - 2026-01-29
+## [2.1.18] - 2026-01-30
+- Use grid layout on native app by default
+
+## [2.1.18] - 2026-01-30
 - Fixed zoom issue on login screen on iOS
 
 ## [2.1.17] - 2026-01-29
