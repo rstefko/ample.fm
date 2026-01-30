@@ -1,5 +1,8 @@
 # Changelog
 
+## [2.1.18] - 2026-01-29
+- Fixed zoom issue on login screen on iOS
+
 ## [2.1.17] - 2026-01-29
 - Updated description
 - Show clear cache only when logged in
