@@ -5,6 +5,7 @@ Based on [Ample v2](https://github.com/mitchray/ample).
 <img src="https://github.com/mitchray/ample/assets/5735900/e2564e30-d7af-4fc8-b2e1-bbff93a3356e" width=800 alt="Ample screenshot" />
 
 ## Features
+- Local cache support
 - 5 star rating
 - Smart autoplay when nearing end of the queue
 - Dark & light mode with adaptive interface colors
