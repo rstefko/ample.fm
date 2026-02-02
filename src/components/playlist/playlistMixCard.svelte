@@ -116,13 +116,6 @@
         border: 2px solid var(--color-highlight);
     }
 
-    .image {
-        filter: saturate(0%) brightness(100%) contrast(70%);
-        mix-blend-mode: luminosity;
-        position: relative;
-        opacity: 0.5;
-    }
-
     .image-container {
         position: relative;
         z-index: 1;

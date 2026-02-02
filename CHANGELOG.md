@@ -1,6 +1,9 @@
 # Changelog
 
-## [2.1.18] - 2026-01-30
+## [2.1.20] - 2026-02-02
+- Removed CSS filter for artists mix
+
+## [2.1.19] - 2026-01-30
 - Use grid layout on native app by default
 
 ## [2.1.18] - 2026-01-30
