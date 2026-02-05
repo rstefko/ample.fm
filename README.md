@@ -2,7 +2,7 @@
 Built with [Svelte](https://svelte.dev/) & [howler.js](https://github.com/goldfire/howler.js)
 Based on [Ample v2](https://github.com/mitchray/ample).
 
-<img src="https://github.com/mitchray/ample/assets/5735900/e2564e30-d7af-4fc8-b2e1-bbff93a3356e" width=800 alt="Ample screenshot" />
+<img src="https://www.romanstefko.com/wp-content/uploads/2026/02/app-screen.png" width=800 alt="Ample.fm Screenshot" />
 
 ## Features
 - Local cache support
