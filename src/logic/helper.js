@@ -52,6 +52,9 @@ export const formatTotalTime = (secs) => {
  */
 // Courtesy of https://stackoverflow.com/a/37770048
 export const formatSongLength = (secs) => {
+    if (!secs)
+        return "0:00";
+    
     return (secs - (secs %= 60)) / 60 + (9 < Math.floor(secs) ? ':' : ':0') + Math.floor(secs);
 }
 

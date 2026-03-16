@@ -1,5 +1,8 @@
 # Changelog
 
+## [2.1.21] - 2026-03-16
+- Added live streams support
+
 ## [2.1.20] - 2026-02-02
 - Removed CSS filter for artists mix
 

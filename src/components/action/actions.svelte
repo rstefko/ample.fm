@@ -124,6 +124,9 @@
             case 'artistMix':
                 fetchURL = getSongsFromPlaylist({ id: id, type: "artist_mix" });
                 break;
+            case 'stream':
+                fetchURL = $API.liveStream({ filter: id });
+                break;
             default:
                 break;
         }
@@ -217,16 +220,18 @@
 {#if mode === 'miniButtons' || mode === 'fullButtons'}
     <div class="c-actions {mode}">
         <ActionPlay contextKey={contextKey} />
-        <ActionShuffle contextKey={contextKey} />
+        {#if type !== 'stream'}
+            <ActionShuffle contextKey={contextKey} />
 
-        <span class="group">
-            <ActionPlayNext contextKey={contextKey} />
-            <ActionPlayLast contextKey={contextKey} />
+            <span class="group">
+                <ActionPlayNext contextKey={contextKey} />
+                <ActionPlayLast contextKey={contextKey} />
 
-            <div class="action">
-                <button id="js-action-menu_{type}{mode}{id}" type="button" class="icon-button" on:click={handleMore} title="{$_('text.more')}"><SVGMore /> </button>
-            </div>
-        </span>
+                <div class="action">
+                    <button id="js-action-menu_{type}{mode}{id}" type="button" class="icon-button" on:click={handleMore} title="{$_('text.more')}"><SVGMore /> </button>
+                </div>
+            </span>
+        {/if}
     </div>
 {/if}
 

@@ -55,6 +55,9 @@
         '/smartlists': wrap({
             asyncComponent: () => import('../views/smartlists.svelte')
         }),
+        '/streams': wrap({
+            asyncComponent: () => import('../views/streams.svelte')
+        }),
         '/mix/:mixType/:id': wrap({
             asyncComponent: () => import('../views/playlist.svelte')
         }),

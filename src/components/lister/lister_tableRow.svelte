@@ -115,6 +115,8 @@
                 <a href="#/smartlists/{item.id}">
                     {item.name}
                 </a>
+            {:else if $_type === "stream"}
+                {item.name}
             {:else if $_type === "song" || $_type === "playlist_songs"}
                 {#if $CurrentMedia?.id === item.id}
                     <span class="current-icon">

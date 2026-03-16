@@ -88,7 +88,7 @@
     }
 </script>
 
-<div class="c-rating" class:disabled={!id}>
+<div class="c-rating" class:disabled={!id || !Number.isInteger(rating)}>
     <ul class="c-rating__stars">
         {#each values as ratingValue, i}
             <li on:click={handleRating} data-rating="{ratingValue}" class="c-rating__star" class:current={rating === ratingValue} class:new={loading && pendingRating === ratingValue}>

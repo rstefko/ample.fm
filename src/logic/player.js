@@ -194,6 +194,9 @@ class Player {
 
         CurrentMedia.subscribe(value => {
             this.currentMedia = value;
+            if (value) {
+                this.currentMedia.title = value.title || value.name;
+            }
         });
 
         RepeatEnabled.subscribe(value => {
@@ -296,11 +299,13 @@ class Player {
             if (isNativeApp()) {
                 this.howl.playTrack(song.id, song.stream_format, this.currentMedia.url, title, artist, album, artwork);
             } else {
-                const audioBlob = await localforage.getItem(this.currentMedia.id);
-                if (audioBlob) {
-                    trackUrl = URL.createObjectURL(audioBlob);
+                if (this.currentMedia.stream_format) {
+                    const audioBlob = await localforage.getItem(this.currentMedia.id);
+                    if (audioBlob) {
+                        trackUrl = URL.createObjectURL(audioBlob);
 
-                    debugHelper(`Loading track ${this.currentMedia.id} from cache`);
+                        debugHelper(`Loading track ${this.currentMedia.id} from cache`);
+                    }
                 }
                 this.howl = new Howl({
                     src: [trackUrl],
@@ -428,6 +433,10 @@ class Player {
     }
 
     async preloadSongs(songs) {
+        if (songs.length === 1 && !songs[0].stream_format) {
+            return;
+        }
+        
         if (isNativeApp()) {
             this.howl.preload(songs);
             return;

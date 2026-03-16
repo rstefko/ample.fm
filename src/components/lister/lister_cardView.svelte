@@ -60,6 +60,10 @@
                 card = (await import('../../components/playlist/playlistCard.svelte')).default;
                 containerClass = "cardlist-grid playlist-grid";
                 break;
+            case 'stream':
+                card = (await import('../../components/playlist/streamCard.svelte')).default;
+                containerClass = "cardlist-grid stream-grid";
+                break;
             case 'genre':
                 card = (await import('../../components/genre/genreCard.svelte')).default;
                 containerClass = "cardlist-grid genre-grid";

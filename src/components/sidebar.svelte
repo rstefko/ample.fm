@@ -29,6 +29,7 @@
     import SVGSearch from "/src/images/search.svg";
     import SVGGenre from "/src/images/label.svg";
     import SVGMultiStar from "/src/images/hotel-star.svg";
+    import SVGRadio from "/src/images/radio.svg";
 
     let tooltipPlacement = 'right';
 
@@ -111,6 +112,14 @@
             >
                 <a href="#/smartlists" class="site-sidebar__link ">
                     <SVGSmartlist /> <span class="label">{$_('text.smartlists')}</span>
+                </a>
+            </li>
+            <li use:active={'/streams'}
+                data-tooltip-disabled={$SidebarIsOpen}
+                use:tooltip={{text: $_('text.streams'), placement: tooltipPlacement}}
+            >
+                <a href="#/streams" class="site-sidebar__link ">
+                    <SVGRadio /> <span class="label">{$_('text.streams')}</span>
                 </a>
             </li>
             <li use:active={'/genres'}

@@ -15,7 +15,7 @@
     <div class="details" on:click={handleClick}>
         <div class="title card-title" title="{$CurrentMedia.title}"><a href="#/song/{$CurrentMedia.id}">{$CurrentMedia.title}</a></div>
 
-        {#if $CurrentMedia.artists.length > 0}
+        {#if $CurrentMedia.artists?.length > 0}
             <div class="artist secondary-info">
                 <ArtistList artists={$CurrentMedia.artists} />
             </div>
