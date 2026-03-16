@@ -10,7 +10,7 @@ import {
     addLyricsMissingNotification,
     addLyricsNotTimestampedNotification,
 } from "./notification";
-import { debugHelper, shuffleArray, sleep, lyricsAreTimestamped, isNativeApp } from './helper';
+import { debugHelper, shuffleArray, sleep, lyricsAreTimestamped, isNativeApp, isLiveStream } from './helper';
 import {
     NowPlayingQueue,
     NowPlayingIndex,
@@ -433,7 +433,7 @@ class Player {
     }
 
     async preloadSongs(songs) {
-        if (songs.length === 1 && !songs[0].stream_format) {
+        if (songs.length === 1 && isLiveStream(songs[0])) {
             return;
         }
         

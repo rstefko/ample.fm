@@ -21,6 +21,10 @@ export function isNativeApp(ms) {
     return navigator.userAgent.includes("Ample.fm (iOS)");
 }
 
+export function isLiveStream(song) {
+    return !song?.stream_format;
+}
+
 export function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }

@@ -1,5 +1,8 @@
 # Changelog
 
+## [2.1.22] - 2026-03-16
+- Fixed AutoPlay for live streams
+
 ## [2.1.21] - 2026-03-16
 - Added live streams support
 

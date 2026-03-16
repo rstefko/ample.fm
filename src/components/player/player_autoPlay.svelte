@@ -12,8 +12,9 @@
     import { addAlert } from "../../logic/alert";
     import { API } from "../../stores/api";
     import { MediaPlayer } from "../../stores/player";
-    import { NowPlayingIndex, NowPlayingQueue } from "../../stores/status";
+    import { CurrentMedia, NowPlayingIndex, NowPlayingQueue } from "../../stores/status";
     import { AutoPlayEnabled, AutoPlayPlaylist } from "../../stores/status";
+    import { isLiveStream } from "../../logic/helper";
     import PlaylistSelector from '../../components/playlist/playlist_selector.svelte';
     import Menu from '../../components/menu.svelte';
     import SVGAutoPlay from "/src/images/queue.svg";
@@ -23,7 +24,7 @@
     let timeout;
     let shouldAdd;
 
-    $: shouldAdd = $NowPlayingQueue.length > 0 && $AutoPlayEnabled && $selectedPlaylist && $NowPlayingIndex > $NowPlayingQueue.length - 10;
+    $: shouldAdd = $NowPlayingQueue.length > 0 && $AutoPlayEnabled && $selectedPlaylist && $NowPlayingIndex > $NowPlayingQueue.length - 10 && !isLiveStream($CurrentMedia);
 
     $: {
         // load more items into queue from AutoPlay
