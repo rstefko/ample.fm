@@ -7,6 +7,7 @@ Based on [Ample v2](https://github.com/mitchray/ample).
 ## Features
 - Local cache support
 - 5 star rating
+- Live radio streams support
 - Smart autoplay when nearing end of the queue
 - Dark & light mode with adaptive interface colors
 - Fade out/in on pause/resume/next/previous
