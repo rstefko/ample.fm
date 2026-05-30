@@ -1,5 +1,8 @@
 # Changelog
 
+## [2.1.23] - 2026-05-30
+- Added Apple association
+
 ## [2.1.22] - 2026-03-16
 - Fixed AutoPlay for live streams
 

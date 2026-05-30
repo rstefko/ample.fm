@@ -1,0 +1,13 @@
+{
+  "applinks": {
+      "details": [
+           {
+             "appIDs": [ "6758390087.com.romanstefko.ample.fm.ios" ],
+             "paths": [ "/*" ]
+           }
+       ]
+   },
+   "webcredentials": {
+      "apps": [ "6758390087.com.romanstefko.ample.fm.ios" ]
+   }
+}
