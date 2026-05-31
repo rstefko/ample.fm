@@ -10,7 +10,6 @@ Based on [Ample v2](https://github.com/mitchray/ample).
 - Live radio streams support
 - Smart autoplay when nearing end of the queue
 - Dark & light mode with adaptive interface colors
-- Fade out/in on pause/resume/next/previous
 - Media keys support
 - Toggleable notifications for
   - Alternate song versions (radio edit, acoustic, live, demo etc)

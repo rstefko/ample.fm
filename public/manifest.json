@@ -17,5 +17,75 @@
     "background_color": "#ffffff",
     "display": "standalone",
     "start_url": "./",
-    "categories": ["music", "entertainment"]
+    "categories": ["music", "entertainment"],
+    "orientation": "natural",
+    "description": "Ample.fm is an Ampache based music player for your cloud. You can stream your music from ownCloud or Nextcloud Music.",
+    "screenshots" : [
+        {
+            "src": "/screenshot-iphone-1.png",
+            "sizes": "1320x2868",
+            "type": "image/png",
+            "platform": "ios"
+        },
+        {
+            "src": "/screenshot-iphone-2.png",
+            "sizes": "1320x2868",
+            "type": "image/png",
+            "platform": "ios"
+        },
+        {
+            "src": "/screenshot-iphone-3.png",
+            "sizes": "1320x2868",
+            "type": "image/png",
+            "platform": "ios"
+        },
+        {
+            "src": "/screenshot-iphone-4.png",
+            "sizes": "1320x2868",
+            "type": "image/png",
+            "platform": "ios"
+        },
+        {
+            "src": "/screenshot-iphone-5.png",
+            "sizes": "1320x2868",
+            "type": "image/png",
+            "platform": "ios"
+        },
+        {
+            "src": "/screenshot-iphone-6.png",
+            "sizes": "1320x2868",
+            "type": "image/png",
+            "platform": "ios"
+        },
+        {
+            "src": "/screenshot-ipad-1.png",
+            "sizes": "2064x2752",
+            "type": "image/png",
+            "platform": "ios"
+        },
+        {
+            "src": "/screenshot-ipad-2.png",
+            "sizes": "2064x2752",
+            "type": "image/png",
+            "platform": "ios"
+        },
+        {
+            "src": "/screenshot-ipad-3.png",
+            "sizes": "2064x2752",
+            "type": "image/png",
+            "platform": "ios"
+        },
+        {
+            "src": "/screenshot-ipad-4.png",
+            "sizes": "2064x2752",
+            "type": "image/png",
+            "platform": "ios"
+        },
+        {
+            "src": "/screenshot-ipad-5.png",
+            "sizes": "2064x2752",
+            "type": "image/png",
+            "platform": "ios"
+        }
+    ]
 }
