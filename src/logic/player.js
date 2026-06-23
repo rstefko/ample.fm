@@ -505,7 +505,7 @@ class Player {
         if (!this.isPlaying)
             return;
 
-        CurrentTime.set(this.howl.seek());
+        CurrentTime.set(this.howl?.seek() || 0);
 
         requestAnimationFrame(() => {
             this.updateCurrentTime();
@@ -638,13 +638,22 @@ class Player {
      * Add songs to the end of the queue
      * @param {object} songs
      */
-    async playLast(songs) {
+    async playLast(songs, removePlayedSongs = false) {
         this.preloadSongs(songs);
 
         let tempArray = get(NowPlayingQueue);
         let queueLength = tempArray.length;
+
+        if (removePlayedSongs && this.nowPlayingIndex > 0) {
+            tempArray = tempArray.slice(this.nowPlayingIndex);
+        }
+        
         tempArray.push(...songs);
-        await this.setQueueItems(tempArray);
+        await this.setQueueItems(tempArray).then(() => {
+            if (removePlayedSongs) {
+                NowPlayingIndex.set(0);
+            }
+        });
 
         // Start playing if queue was empty
         if (queueLength === 0) {

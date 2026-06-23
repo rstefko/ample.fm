@@ -1,5 +1,8 @@
 # Changelog
 
+## [2.1.24] - 2026-06-23
+- AutoPlay removes played songs from the queue
+
 ## [2.1.23] - 2026-05-30
 - Added Apple association
 

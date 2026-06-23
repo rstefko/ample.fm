@@ -41,7 +41,7 @@
                             .then((result) => {
                                 if (!result.error && result.length > 0) {
                                     result = (Array.isArray(result)) ? result : [result];
-                                    $MediaPlayer.playLast(result);
+                                    $MediaPlayer.playLast(result, true);
                                     $isFetching = false;
                                     addAlert({title: $_('text.autoplay'), message: $_('text.autoplayAddedItems', { values: { n: result.length, playlist: $selectedPlaylist.name } }), style: 'info'});
                                 }
