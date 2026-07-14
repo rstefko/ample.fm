@@ -1,5 +1,8 @@
 # Changelog
 
+## [2.1.25] - 2026-07-14
+- Do not skip songs without rating
+
 ## [2.1.24] - 2026-06-23
 - AutoPlay removes played songs from the queue
 

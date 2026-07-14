@@ -221,7 +221,7 @@ export function filterBelow(arr) {
 
     // if length is 1 let's assume we want to play that item regardless of rating
     if (arr.length > 1 && get(SkipBelow)) {
-        arr = arr.filter(item => item.rating >= get(SkipBelowRating));
+        arr = arr.filter(item => !item.rating ||item.rating >= get(SkipBelowRating));
     }
 
     let filteredCount = originalCount - arr.length;
