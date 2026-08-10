@@ -1,50 +1,81 @@
 import { readable, writable } from 'svelte/store';
 
-export let NowPlayingQueue = writable([]);
-export let NowPlayingIndex = writable(0);
+function persistedWritable(key, initialValue) {
+    const hasStorage = typeof localStorage !== 'undefined';
+
+    let startValue = initialValue;
+
+    if (hasStorage) {
+        try {
+            const raw = localStorage.getItem(key);
+            if (raw !== null) {
+                startValue = JSON.parse(raw);
+            }
+        } catch (e) {
+            console.error(`Error reading localStorage key "${key}":`, e);
+        }
+    }
+
+    const store = writable(startValue);
+
+    if (hasStorage) {
+        store.subscribe((value) => {
+            try {
+                localStorage.setItem(key, JSON.stringify(value));
+            } catch (e) {
+                console.error(`Error writing localStorage key "${key}":`, e);
+            }
+        });
+    }
+
+    return store;
+}
+
+export let NowPlayingQueue = persistedWritable('AmpleNowPlayingQueue', []);
+export let NowPlayingIndex = persistedWritable('AmpleNowPlayingIndex', 0);
 
 export let IsPlaying   = writable(false);
 export let IsMuted     = writable(false);
-export let CurrentMedia = writable(null);
+export let CurrentMedia = persistedWritable('AmpleCurrentMedia', null);
 export let CurrentTime = writable(null);
-export let TimeToggled = writable(false);
+export let TimeToggled = persistedWritable('AmpleTimeToggled', false);
 
-export let PageTitle = writable('');
-export let SearchQuery = writable('');
-export let ShowSearch  = writable(false);
-export let ShowLyrics    = writable(JSON.parse(localStorage.getItem('AmpleShowLyrics')) || false);
-export let FullScreenEnabled = writable(false);
-export let TabHistory = writable({});
-export let FilterHistory = writable({});
-export let PageLoadedKey = writable(null);
+export let PageTitle = persistedWritable('AmplePageTitle', '');
+export let SearchQuery = persistedWritable('AmpleSearchQuery', '');
+export let ShowSearch  = persistedWritable('AmpleShowSearch', false);
+export let ShowLyrics    = persistedWritable('AmpleShowLyrics', false);
+export let FullScreenEnabled = persistedWritable('AmpleFullScreenEnabled', false);
+export let TabHistory = persistedWritable('AmpleTabHistory', {});
+export let FilterHistory = persistedWritable('AmpleFilterHistory', {});
+export let PageLoadedKey = persistedWritable('AmplePageLoadedKey', null);
 
-export let SidebarIsOpen   = writable(JSON.parse(localStorage.getItem('AmpleSidebarIsOpen')) || false);
-export let SidebarIsPinned = writable(JSON.parse(localStorage.getItem('AmpleSidebarIsPinned')) || false);
+export let SidebarIsOpen   = persistedWritable('AmpleSidebarIsOpen', false);
+export let SidebarIsPinned = persistedWritable('AmpleSidebarIsPinned', false);
 
-export let QueueIsOpen   = writable(JSON.parse(localStorage.getItem('AmpleQueueIsOpen')) || false);
-export let QueueIsPinned = writable(JSON.parse(localStorage.getItem('AmpleQueueIsPinned')) || false);
-export let QueueIsUpdating = writable(false);
+export let QueueIsOpen   = persistedWritable('AmpleQueueIsOpen', false);
+export let QueueIsPinned = persistedWritable('AmpleQueueIsPinned', false);
+export let QueueIsUpdating = persistedWritable('AmpleQueueIsUpdating', false);
 
-export let PlayerVolume               = writable(JSON.parse(localStorage.getItem('AmplePlayerVolume')) || 50);
-export let RepeatEnabled              = writable(JSON.parse(localStorage.getItem('AmpleRepeatEnabled')) || false);
+export let PlayerVolume               = persistedWritable('AmplePlayerVolume', 50);
+export let RepeatEnabled              = persistedWritable('AmpleRepeatEnabled', false);
 
-export let AutoPlayEnabled  = writable(JSON.parse(localStorage.getItem('AmpleAutoPlayEnabled')) || false);
-export let AutoPlayPlaylist = writable(JSON.parse(localStorage.getItem('AmpleAutoPlayPlaylist')) || null);
+export let AutoPlayEnabled  = persistedWritable('AmpleAutoPlayEnabled', false);
+export let AutoPlayPlaylist = persistedWritable('AmpleAutoPlayPlaylist', null);
 
-export let ShowNotificationGainTagsMissing      = writable(JSON.parse(localStorage.getItem('AmpleShowNotificationGainTagsMissing')) || false);
-export let ShowNotificationRatingMissing        = writable(JSON.parse(localStorage.getItem('AmpleShowNotificationRatingMissing')) || false);
-export let ShowNotificationAlternateVersions    = writable(JSON.parse(localStorage.getItem('AmpleShowNotificationAlternateVersions')) || false);
-export let ShowNotificationLyricsMissing        = writable(JSON.parse(localStorage.getItem('AmpleShowNotificationLyricsMissing')) || false);
-export let ShowNotificationLyricsNotTimestamped = writable(JSON.parse(localStorage.getItem('AmpleShowNotificationLyricsNotTimestamped')) || false);
+export let ShowNotificationGainTagsMissing      = persistedWritable('AmpleShowNotificationGainTagsMissing', false);
+export let ShowNotificationRatingMissing        = persistedWritable('AmpleShowNotificationRatingMissing', false);
+export let ShowNotificationAlternateVersions    = persistedWritable('AmpleShowNotificationAlternateVersions', false);
+export let ShowNotificationLyricsMissing        = persistedWritable('AmpleShowNotificationLyricsMissing', false);
+export let ShowNotificationLyricsNotTimestamped = persistedWritable('AmpleShowNotificationLyricsNotTimestamped', false);
 
-export let ShowExpandedAlbums = writable(JSON.parse(localStorage.getItem('AmpleShowExpandedAlbums')) || false);
-export let GroupAlbumsByReleaseType = writable(JSON.parse(localStorage.getItem('AmpleGroupAlbumsByReleaseType')) || false);
+export let ShowExpandedAlbums = persistedWritable('AmpleShowExpandedAlbums', false);
+export let GroupAlbumsByReleaseType = persistedWritable('AmpleGroupAlbumsByReleaseType', false);
 
-export let SkipBelow       = writable(JSON.parse(localStorage.getItem('AmpleSkipBelow')) || false);
-export let SkipBelowRating = writable(JSON.parse(localStorage.getItem('AmpleSkipBelowRating')) || 3);
+export let SkipBelow       = persistedWritable('AmpleSkipBelow', false);
+export let SkipBelowRating = persistedWritable('AmpleSkipBelowRating', 3);
 
-export let Theme     = writable(JSON.parse(localStorage.getItem('AmpleTheme')) || null);
-export let customHue = writable();
+export let Theme     = persistedWritable('AmpleTheme', null);
+export let customHue = persistedWritable('AmpleCustomHue', null);
 
 export const IsMobile = readable(false, function start(set) {
     const mobile = window.matchMedia("(max-width: 679.99px)");

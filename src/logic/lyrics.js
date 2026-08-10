@@ -12,13 +12,13 @@ class Lyrics {
         this.lyricsFinal     = [];
         this.isTimestamped = false;
 
+        this._store = writable(this);
+
         CurrentMedia.subscribe(value => {
             this.currentMedia = value;
 
             this.setLyrics();
         });
-
-        this._store = writable(this);
     }
 
     subscribe(subscriber) {

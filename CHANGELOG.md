@@ -1,5 +1,8 @@
 # Changelog
 
+## [2.1.26] - 2026-08-10
+- Remember last app state
+
 ## [2.1.25] - 2026-07-14
 - Do not skip songs without rating
 
