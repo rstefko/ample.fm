@@ -1,5 +1,8 @@
 # Changelog
 
+## [2.1.27] - 2026-08-20
+- Resolved an issue where songs in scrolled playlists were not being shown in native app
+
 ## [2.1.26] - 2026-08-10
 - Remember last app state
 

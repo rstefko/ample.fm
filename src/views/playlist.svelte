@@ -13,6 +13,7 @@
     import SVGPlaylist from "/src/images/queue_music.svg";
     import SVGSmartlist from "/src/images/smartlist.svg";
     import SVGRadio from "/src/images/radio.svg";
+    import { isNativeApp } from "../logic/helper";
 
     export let params = {}
 
@@ -22,6 +23,7 @@
     let playlistType = "playlist";
     let playlistEditIsVisible = false;
     let playlistDeleteIsVisible = false;
+    let virtualList = !isNativeApp();
 
     $: songs = songs;
     $: playlist = playlist;
@@ -114,7 +116,7 @@
                     showCheckboxes={playlistType === "playlist"}
                     tableOnly={true}
                     showIndex={true}
-                    virtualList={true}
+                    virtualList={virtualList}
                     actionData={{
                         type: "",
                         mode: "fullButtons",
