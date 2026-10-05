@@ -1,5 +1,8 @@
 # Changelog
 
+## [2.1.28] - 2026-10-05
+- Removed Apple touch icon black background
+
 ## [2.1.27] - 2026-08-20
 - Resolved an issue where songs in scrolled playlists were not being shown in native app
 
