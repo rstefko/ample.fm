@@ -164,6 +164,7 @@
   "text.notificationGainTagsMissing": "Missing volume gain tags",
   "text.notificationLyricsMissing": "Missing lyrics",
   "text.notificationLyricsNotTimestamped": "Lyrics not timestamped",
+  "text.notificationPlaylistSongError": "Error adding song to playlist",
   "text.notificationRatingMissing": "Missing song rating",
   "text.notifications": "Notifications",
   "text.originalYear": "Original Year",

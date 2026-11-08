@@ -64,7 +64,7 @@
         <ul class="playlists">
             {#if filteredList.length > 0}
                 {#each filteredList as item}
-                    <li class="item" on:click={handleSelection(item)} class:selected={selectedPlaylist && selectedPlaylist.id === item.id}>
+                    <li class="item" on:click={() => handleSelection(item)} class:selected={selectedPlaylist && selectedPlaylist.id === item.id}>
                         <span class="item-inner" title="{item.name}">{item.name}</span>
                     </li>
                 {/each}

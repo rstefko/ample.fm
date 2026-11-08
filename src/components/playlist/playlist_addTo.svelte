@@ -3,6 +3,7 @@
     import { API } from "../../stores/api";
     import PlaylistSelector from '../../components/playlist/playlist_selector.svelte';
     import PlaylistEdit from '../../components/playlist/playlist_edit.svelte';
+    import { addPlaylistSongErrorNotification } from '../../logic/notification';
 
     export let songs;
     export let isVisible;
@@ -16,14 +17,24 @@
         { label: $_('text.playlistNew'),   value: 2 }
     ];
 
-    function handleSelected() {
-        songs.forEach(element => {
-            $API.playlistAddSong({
-                filter: selectedPlaylist.id,
-                song: element.id,
-                check: ignoreDuplicates ? 1 : 0
-            });
-        });
+    async function handleSelected() {
+        for (const song of songs) {
+            try {
+                const result = await $API.playlistAddSong({
+                    filter: selectedPlaylist.id,
+                    song: song.id,
+                    check: ignoreDuplicates ? 1 : 0
+                });
+                
+                if (result?.error) {
+                    const errorMessage = result.error.errorMessage || $_('text.errorGeneric');
+                    addPlaylistSongErrorNotification(errorMessage);
+                }
+            } catch (err) {
+                console.error('Error adding song to playlist:', err);
+                addPlaylistSongErrorNotification(err.message || $_('text.errorGeneric'));
+            }
+        }
 
         isVisible = false;
     }

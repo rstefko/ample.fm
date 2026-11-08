@@ -120,3 +120,14 @@ export const addLyricsNotTimestampedNotification = (data) => {
 
     addNotification(settings);
 }
+
+export const addPlaylistSongErrorNotification = (errorMessage) => {
+    let settings = {
+        title: get(_)("text.notificationPlaylistSongError"),
+        message: errorMessage,
+        type: "playlistSongError",
+        style: "error"
+    }
+
+    addNotification(settings);
+}

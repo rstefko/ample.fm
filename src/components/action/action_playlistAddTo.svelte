@@ -3,6 +3,7 @@
     import { getContext, tick } from 'svelte';
     import Menu from '../../components/menu.svelte';
     import PlaylistAddTo from '../../components/playlist/playlist_addTo.svelte';
+    import { loadingSpinner } from '../../actions/loadingSpinner';
     import SVGPlaylist from "/src/images/queue_music.svg";
 
     export let contextKey;
@@ -17,11 +18,16 @@
     let songsForPlaylistAdd = [];
 
     async function handleAction() {
-        menuIsVisible = !menuIsVisible;
-        await tick();
+        loaded = false;
         
-        if (menuIsVisible) {
+        try {
             songsForPlaylistAdd = await getSongs();
+            
+            if (songsForPlaylistAdd.length > 0) {
+                menuIsVisible = !menuIsVisible;
+            }
+        } finally {
+            loaded = true;
         }
     }
 </script>
@@ -31,6 +37,7 @@
     id="js-action-playlist_add_{type}{mode}{id}"
     on:click={handleAction}
     title="{$_('text.playlistAddTo')}"
+    use:loadingSpinner={loaded}
 >
     <SVGPlaylist />
 </button>

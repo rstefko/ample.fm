@@ -164,6 +164,7 @@
   "text.notificationGainTagsMissing": "Fehlende Tags zur Lautstärkeverstärkung",
   "text.notificationLyricsMissing": "Fehlende Liedtexte",
   "text.notificationLyricsNotTimestamped": "Liedtext ohne Zeitstempel",
+  "text.notificationPlaylistSongError": "Fehler beim Hinzufügen des Songs zur Playlist",
   "text.notificationRatingMissing": "Fehlende Songbewertung",
   "text.notifications": "Benachrichtigungen",
   "text.originalYear": "Ursprüngliches Jahr",

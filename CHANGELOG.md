@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.1.29] - 2026-11-08
+- Fixed race condition preventing songs from being added to playlists on first click
+- Added loading spinner while fetching songs for playlist add dialog
+
 ## [2.1.28] - 2026-10-05
 - Removed Apple touch icon black background
 
