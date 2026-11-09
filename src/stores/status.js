@@ -1,4 +1,5 @@
 import { readable, writable } from 'svelte/store';
+import { isNativeApp } from '../logic/helper';
 
 function persistedWritable(key, initialValue) {
     const hasStorage = typeof localStorage !== 'undefined';
@@ -58,6 +59,7 @@ export let QueueIsUpdating = persistedWritable('AmpleQueueIsUpdating', false);
 
 export let PlayerVolume               = persistedWritable('AmplePlayerVolume', 50);
 export let RepeatEnabled              = persistedWritable('AmpleRepeatEnabled', false);
+export let CacheSongs = persistedWritable('AmpleCacheSongs', isNativeApp());
 
 export let AutoPlayEnabled  = persistedWritable('AmpleAutoPlayEnabled', false);
 export let AutoPlayPlaylist = persistedWritable('AmpleAutoPlayPlaylist', null);

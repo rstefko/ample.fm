@@ -22,7 +22,8 @@ import {
     RepeatEnabled,
     CurrentTime,
     IsMobile,
-    ShowNotificationAlternateVersions
+    ShowNotificationAlternateVersions,
+    CacheSongs
 } from '../stores/status';
 import localforage from 'localforage';
 
@@ -300,11 +301,13 @@ class Player {
                 this.howl.playTrack(song.id, song.stream_format, this.currentMedia.url, title, artist, album, artwork);
             } else {
                 if (this.currentMedia.stream_format) {
-                    const audioBlob = await localforage.getItem(this.currentMedia.id);
-                    if (audioBlob) {
-                        trackUrl = URL.createObjectURL(audioBlob);
+                    if (get(CacheSongs)) {
+                        const audioBlob = await localforage.getItem(this.currentMedia.id);
+                        if (audioBlob) {
+                            trackUrl = URL.createObjectURL(audioBlob);
 
-                        debugHelper(`Loading track ${this.currentMedia.id} from cache`);
+                            debugHelper(`Loading track ${this.currentMedia.id} from cache`);
+                        }
                     }
                 }
                 this.howl = new Howl({
@@ -433,6 +436,10 @@ class Player {
     }
 
     async preloadSongs(songs) {
+        if (!get(CacheSongs)) {
+            return;
+        }
+
         if (songs.length === 1 && isLiveStream(songs[0])) {
             return;
         }

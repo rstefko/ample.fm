@@ -2,6 +2,7 @@
     import { _ } from 'svelte-i18n';
     import { logout } from "../logic/user";
     import { isLoggedIn } from "../stores/user.js";
+    import { CacheSongs } from "../stores/status";
     import { ampleVersion, MediaPlayer } from "../stores/player";
     import ThemeToggle from '../components/themeToggle.svelte';
     import LanguageSelector from '../components/languageSelector.svelte';
@@ -46,14 +47,21 @@
                     <span class="text">{$_('text.logOut')}</span>
                 </button>
 
-                <button
-                        on:click={clearCache}
-                        class="visuallyLink clear-cache"
-                        title="{$_('text.clearCache')}"
-                >
-                    <ClearCache />
-                    <span class="text">{$_('text.clearCache')}</span>
-                </button>
+                <label class="toggle">
+                    <input type="checkbox" class="switch" bind:checked={$CacheSongs} />
+                    {$_('text.cacheSongs')}
+                </label>
+
+                {#if $CacheSongs}
+                    <button
+                            on:click={clearCache}
+                            class="visuallyLink clear-cache"
+                            title="{$_('text.clearCache')}"
+                    >
+                        <ClearCache />
+                        <span class="text">{$_('text.clearCache')}</span>
+                    </button>
+                {/if}
             {/if}
 
             <ThemeToggle />
